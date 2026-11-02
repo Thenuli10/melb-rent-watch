@@ -1,0 +1,31 @@
+# Ingestion
+requests>=2.32
+beautifulsoup4>=4.12
+tenacity>=9.0
+pyyaml>=6.0
+python-dotenv>=1.0
+
+# Transformation
+pandas>=2.2
+openpyxl>=3.1
+rapidfuzz>=3.9
+geopandas>=1.0
+pyogrio>=0.9
+shapely>=2.0
+scikit-learn>=1.5
+
+# Warehouse
+psycopg[binary]>=3.2
+sqlalchemy>=2.0
+
+# Modelling
+statsmodels>=0.14
+lightgbm>=4.5
+esda>=2.6
+libpysal>=4.12
+
+# Notebooks (run with your own Jupyter / VS Code)
+matplotlib>=3.9
+
+# Dev
+pytest>=8.3

@@ -1,0 +1,59 @@
+name: Quarterly refresh
+
+# DFFH publishes quarterly, on no fixed date, so check weekly. The pipeline
+# exits early (successfully) if the latest quarter is already loaded.
+on:
+  schedule:
+    - cron: "0 20 * * 1"   # Mondays 20:00 UTC (Tuesday morning in Melbourne)
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Reload even if the quarter is already loaded"
+        type: boolean
+        default: false
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Unit tests
+        run: python -m pytest -q
+
+      # Boundary files (~250 MB) and GTFS (~180 MB) rarely change; reuse them across runs.
+      # The key is unique per run so the cache is re-saved with any new downloads.
+      - name: Restore raw data cache
+        uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: raw-${{ github.run_id }}
+          restore-keys: raw-
+
+      - name: Run pipeline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python -m src.pipeline ${{ inputs.force && '--force' || '' }}
+
+      - name: Upload model reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            reports/
+            data/reference/unmatched_suburbs.csv
+          if-no-files-found: ignore

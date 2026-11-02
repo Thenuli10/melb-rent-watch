@@ -1,0 +1,194 @@
+suburb_group,part,sal_code,sal_name,match_method,match_score
+Albert Park-Middle Park-West St Kilda,Albert Park,20018,Albert Park (Vic.),exact,100.0
+Albert Park-Middle Park-West St Kilda,Middle Park,21677,Middle Park (Vic.),exact,100.0
+Albert Park-Middle Park-West St Kilda,West St Kilda,22345,St Kilda West,fuzzy,100.0
+Altona,Altona,20035,Altona (Vic.),exact,100.0
+Armadale,Armadale,20066,Armadale (Vic.),exact,100.0
+Aspendale-Chelsea-Carrum,Aspendale,20079,Aspendale,exact,100.0
+Aspendale-Chelsea-Carrum,Chelsea,20537,Chelsea,exact,100.0
+Aspendale-Chelsea-Carrum,Carrum,20507,Carrum,exact,100.0
+Balwyn,Balwyn,20123,Balwyn,exact,100.0
+Bayswater,Bayswater,20173,Bayswater (Vic.),exact,100.0
+Bentleigh,Bentleigh,20214,Bentleigh,exact,100.0
+Berwick,Berwick,20224,Berwick,exact,100.0
+Blackburn,Blackburn,20252,Blackburn,exact,100.0
+Boronia,Boronia,20304,Boronia,exact,100.0
+Box Hill,Box Hill,20314,Box Hill (Vic.),exact,100.0
+Brighton,Brighton,20337,Brighton (Vic.),exact,100.0
+Brighton East,Brighton East,20338,Brighton East,exact,100.0
+Broadmeadows-Roxburgh Park,Broadmeadows,20346,Broadmeadows (Vic.),exact,100.0
+Broadmeadows-Roxburgh Park,Roxburgh Park,22208,Roxburgh Park,exact,100.0
+Brunswick,Brunswick,20361,Brunswick (Vic.),exact,100.0
+Bulleen-Templestowe-Doncaster,Bulleen,20386,Bulleen,exact,100.0
+Bulleen-Templestowe-Doncaster,Templestowe,22483,Templestowe,exact,100.0
+Bulleen-Templestowe-Doncaster,Doncaster,20771,Doncaster,exact,100.0
+Bundoora-Greensborough-Hurstbridge,Bundoora,20399,Bundoora (Vic.),exact,100.0
+Bundoora-Greensborough-Hurstbridge,Greensborough,21104,Greensborough,exact,100.0
+Bundoora-Greensborough-Hurstbridge,Hurstbridge,21223,Hurstbridge,exact,100.0
+Burwood-Ashburton,Burwood,20426,Burwood (Vic.),exact,100.0
+Burwood-Ashburton,Ashburton,20077,Ashburton,exact,100.0
+CBD-St Kilda Rd,Melbourne,21640,Melbourne,override,100.0
+Camberwell-Glen Iris,Camberwell,20453,Camberwell (Vic.),exact,100.0
+Camberwell-Glen Iris,Glen Iris,21010,Glen Iris (Vic.),exact,100.0
+Canterbury-Surrey Hills-Mont Albert,Canterbury,20468,Canterbury (Vic.),exact,100.0
+Canterbury-Surrey Hills-Mont Albert,Surrey Hills,22399,Surrey Hills,exact,100.0
+Canterbury-Surrey Hills-Mont Albert,Mont Albert,21732,Mont Albert,exact,100.0
+Carlton North,Carlton North,20496,Carlton North,exact,100.0
+Carlton-Parkville,Carlton,20495,Carlton (Vic.),exact,100.0
+Carlton-Parkville,Parkville,22038,Parkville (Vic.),exact,100.0
+Carnegie,Carnegie,20498,Carnegie,exact,100.0
+Caulfield,Caulfield,20521,Caulfield,exact,100.0
+Chadstone-Oakleigh,Chadstone,20528,Chadstone,exact,100.0
+Chadstone-Oakleigh,Oakleigh,22000,Oakleigh,exact,100.0
+Cheltenham,Cheltenham,20539,Cheltenham (Vic.),exact,100.0
+Clayton,Clayton,20569,Clayton,exact,100.0
+Coburg-Pascoe Vale South,Coburg,20596,Coburg,exact,100.0
+Coburg-Pascoe Vale South,Pascoe Vale South,22042,Pascoe Vale South,exact,100.0
+Collingwood-Abbotsford,Collingwood,20616,Collingwood (Vic.),exact,100.0
+Collingwood-Abbotsford,Abbotsford,20002,Abbotsford (Vic.),exact,100.0
+Craigieburn,Craigieburn,20661,Craigieburn,exact,100.0
+Cranbourne,Cranbourne,20662,Cranbourne,exact,100.0
+Croydon-Lilydale,Croydon,20682,Croydon (Vic.),exact,100.0
+Croydon-Lilydale,Lilydale,21504,Lilydale (Vic.),exact,100.0
+Dandenong,Dandenong,20707,Dandenong,exact,100.0
+Dandenong North-Endeavour Hills,Dandenong North,20708,Dandenong North,exact,100.0
+Dandenong North-Endeavour Hills,Endeavour Hills,20871,Endeavour Hills,exact,100.0
+Docklands,Docklands,20766,Docklands,exact,100.0
+Doncaster East-Donvale,Doncaster East,20772,Doncaster East,exact,100.0
+Doncaster East-Donvale,Donvale,20774,Donvale,exact,100.0
+Dromana-Portsea,Dromana,20788,Dromana,override,100.0
+Dromana-Portsea,Safety Beach (Vic.),22222,Safety Beach (Vic.),override,100.0
+Dromana-Portsea,McCrae,21625,McCrae,override,100.0
+Dromana-Portsea,Rosebud,22198,Rosebud,override,100.0
+Dromana-Portsea,Capel Sound,20476,Capel Sound,override,100.0
+Dromana-Portsea,Tootgarook,22550,Tootgarook,override,100.0
+Dromana-Portsea,Rye,22220,Rye,override,100.0
+Dromana-Portsea,Blairgowrie,20257,Blairgowrie,override,100.0
+Dromana-Portsea,Sorrento (Vic.),22306,Sorrento (Vic.),override,100.0
+Dromana-Portsea,Portsea,22113,Portsea,override,100.0
+East Brunswick,East Brunswick,20362,Brunswick East,fuzzy,100.0
+East Hawthorn,East Hawthorn,21153,Hawthorn East,fuzzy,100.0
+East Melbourne,East Melbourne,20830,East Melbourne,exact,100.0
+East St Kilda,East St Kilda,22344,St Kilda East,fuzzy,100.0
+Elsternwick,Elsternwick,20864,Elsternwick,exact,100.0
+Eltham-Research-Montmorency,Eltham,20865,Eltham (Vic.),exact,100.0
+Eltham-Research-Montmorency,Research,22160,Research,exact,100.0
+Eltham-Research-Montmorency,Montmorency,21735,Montmorency,exact,100.0
+Elwood,Elwood,20867,Elwood,exact,100.0
+Essendon,Essendon,20885,Essendon,exact,100.0
+Fairfield-Alphington,Fairfield,20901,Fairfield (Vic.),exact,100.0
+Fairfield-Alphington,Alphington,20034,Alphington,exact,100.0
+Ferntree Gully,Ferntree Gully,20917,Ferntree Gully,exact,100.0
+Fitzroy,Fitzroy,20924,Fitzroy (Vic.),exact,100.0
+Fitzroy North-Clifton Hill,Fitzroy North,20925,Fitzroy North,exact,100.0
+Fitzroy North-Clifton Hill,Clifton Hill,20574,Clifton Hill,exact,100.0
+Flemington-Kensington,Flemington,20929,Flemington,exact,100.0
+Flemington-Kensington,Kensington,21327,Kensington (Vic.),exact,100.0
+Footscray,Footscray,20935,Footscray,exact,100.0
+Frankston,Frankston,20947,Frankston,exact,100.0
+Gladstone Park-Tullamarine,Gladstone Park,21004,Gladstone Park,exact,100.0
+Gladstone Park-Tullamarine,Tullamarine,22586,Tullamarine,exact,100.0
+Glen Waverley-Mulgrave,Glen Waverley,21013,Glen Waverley,exact,100.0
+Glen Waverley-Mulgrave,Mulgrave,21827,Mulgrave (Vic.),exact,100.0
+Hampton-Beaumaris,Hampton,21131,Hampton (Vic.),exact,100.0
+Hampton-Beaumaris,Beaumaris,20182,Beaumaris (Vic.),exact,100.0
+Hastings-Flinders,Hastings (Vic.),21145,Hastings (Vic.),override,100.0
+Hastings-Flinders,Bittern,20248,Bittern,override,100.0
+Hastings-Flinders,Crib Point,20674,Crib Point,override,100.0
+Hastings-Flinders,Balnarring,20120,Balnarring,override,100.0
+Hastings-Flinders,Somers,22303,Somers,override,100.0
+Hastings-Flinders,Shoreham,22279,Shoreham,override,100.0
+Hastings-Flinders,Flinders (Vic.),20930,Flinders (Vic.),override,100.0
+Hawthorn,Hawthorn,21152,Hawthorn (Vic.),exact,100.0
+Heidelberg-Heidelberg West,Heidelberg,21167,Heidelberg,exact,100.0
+Heidelberg-Heidelberg West,Heidelberg West,21169,Heidelberg West,exact,100.0
+Ivanhoe-Ivanhoe East,Ivanhoe,21246,Ivanhoe (Vic.),exact,100.0
+Ivanhoe-Ivanhoe East,Ivanhoe East,21247,Ivanhoe East,exact,100.0
+Keilor,Keilor,21314,Keilor,exact,100.0
+Keilor East-Avondale Heights,Keilor East,21316,Keilor East,exact,100.0
+Keilor East-Avondale Heights,Avondale Heights,20089,Avondale Heights,exact,100.0
+Kew,Kew,21336,Kew (Vic.),exact,100.0
+Malvern,Malvern,21586,Malvern (Vic.),exact,100.0
+Malvern East,Malvern East,21587,Malvern East,exact,100.0
+Melton,Melton,21642,Melton (Vic.),exact,100.0
+Mentone-Parkdale-Mordialloc,Mentone,21648,Mentone,exact,100.0
+Mentone-Parkdale-Mordialloc,Parkdale,22037,Parkdale,exact,100.0
+Mentone-Parkdale-Mordialloc,Mordialloc,21760,Mordialloc,exact,100.0
+Mill Park-Epping,Mill Park,21683,Mill Park,exact,100.0
+Mill Park-Epping,Epping,20878,Epping (Vic.),exact,100.0
+Moonee Ponds-Ascot Vale,Moonee Ponds,21742,Moonee Ponds,exact,100.0
+Moonee Ponds-Ascot Vale,Ascot Vale,20075,Ascot Vale,exact,100.0
+Mount Waverley,Mount Waverley,21816,Mount Waverley,exact,100.0
+Mt Eliza-Mornington-Mt Martha,Mt Eliza,21793,Mount Eliza,exact,100.0
+Mt Eliza-Mornington-Mt Martha,Mornington,21763,Mornington (Vic.),exact,100.0
+Mt Eliza-Mornington-Mt Martha,Mt Martha,21803,Mount Martha,exact,100.0
+Murrumbeena-Hughesdale,Murrumbeena,21849,Murrumbeena,exact,100.0
+Murrumbeena-Hughesdale,Hughesdale,21214,Hughesdale,exact,100.0
+Narre Warren-Hampton Park,Narre Warren,21893,Narre Warren,exact,100.0
+Narre Warren-Hampton Park,Hampton Park,21133,Hampton Park,exact,100.0
+Newport-Spotswood,Newport,21934,Newport (Vic.),exact,100.0
+Newport-Spotswood,Spotswood,22319,Spotswood,exact,100.0
+Noble Park,Noble Park,21952,Noble Park,exact,100.0
+North Melbourne-West Melbourne,North Melbourne,21966,North Melbourne,exact,100.0
+North Melbourne-West Melbourne,West Melbourne,22757,West Melbourne,exact,100.0
+Northcote,Northcote,21971,Northcote,exact,100.0
+Nunawading-Mitcham,Nunawading,21985,Nunawading,exact,100.0
+Nunawading-Mitcham,Mitcham,21706,Mitcham (Vic.),exact,100.0
+Oak Park-Glenroy-Fawkner,Oak Park,21998,Oak Park,exact,100.0
+Oak Park-Glenroy-Fawkner,Glenroy,21047,Glenroy (Vic.),exact,100.0
+Oak Park-Glenroy-Fawkner,Fawkner,20909,Fawkner,exact,100.0
+Pakenham,Pakenham,22027,Pakenham,exact,100.0
+Pascoe Vale-Coburg North,Pascoe Vale,22041,Pascoe Vale,exact,100.0
+Pascoe Vale-Coburg North,Coburg North,20597,Coburg North,exact,100.0
+Port Melbourne,Port Melbourne,22107,Port Melbourne,exact,100.0
+Prahran-Windsor,Prahran,22118,Prahran,exact,100.0
+Prahran-Windsor,Windsor,22805,Windsor (Vic.),exact,100.0
+Preston,Preston,22121,Preston (Vic.),exact,100.0
+Reservoir,Reservoir,22161,Reservoir (Vic.),exact,100.0
+Richmond-Burnley,Richmond,22170,Richmond (Vic.),exact,100.0
+Richmond-Burnley,Burnley,20418,Burnley,exact,100.0
+Ringwood,Ringwood,22174,Ringwood (Vic.),exact,100.0
+Rowville,Rowville,22207,Rowville,exact,100.0
+Seaford-Carrum Downs,Seaford,22249,Seaford (Vic.),exact,100.0
+Seaford-Carrum Downs,Carrum Downs,20508,Carrum Downs,exact,100.0
+South Melbourne,South Melbourne,22310,South Melbourne,exact,100.0
+South Yarra,South Yarra,22314,South Yarra,exact,100.0
+Southbank,Southbank,22315,Southbank,exact,100.0
+Springvale,Springvale,22328,Springvale (Vic.),exact,100.0
+St Albans-Deer Park,St Albans,22330,St Albans (Vic.),exact,100.0
+St Albans-Deer Park,Deer Park,20729,Deer Park,exact,100.0
+St Kilda,St Kilda,22343,St Kilda (Vic.),exact,100.0
+Sunbury,Sunbury,22391,Sunbury,exact,100.0
+Sunshine,Sunshine,22395,Sunshine (Vic.),exact,100.0
+Sydenham,Sydenham,22414,Sydenham (Vic.),exact,100.0
+Thomastown-Lalor,Thomastown,22504,Thomastown,exact,100.0
+Thomastown-Lalor,Lalor,21452,Lalor,exact,100.0
+Thornbury,Thornbury,22508,Thornbury,exact,100.0
+Toorak,Toorak,22547,Toorak,exact,100.0
+Vermont-Forest Hill-Burwood East,Vermont,22627,Vermont,exact,100.0
+Vermont-Forest Hill-Burwood East,Forest Hill,20937,Forest Hill (Vic.),exact,100.0
+Vermont-Forest Hill-Burwood East,Burwood East,20427,Burwood East,exact,100.0
+Wantirna-Scoresby,Wantirna,22685,Wantirna,exact,100.0
+Wantirna-Scoresby,Scoresby,22242,Scoresby,exact,100.0
+Werribee-Hoppers Crossing,Werribee,22750,Werribee,exact,100.0
+Werribee-Hoppers Crossing,Hoppers Crossing,21203,Hoppers Crossing,exact,100.0
+West Brunswick,West Brunswick,20363,Brunswick West,fuzzy,100.0
+West Footscray,West Footscray,22756,West Footscray,exact,100.0
+Whittlesea,Whittlesea,22775,Whittlesea,exact,100.0
+Williamstown,Williamstown,22792,Williamstown (Vic.),exact,100.0
+Yarra Ranges,Belgrave,20188,Belgrave,override,100.0
+Yarra Ranges,Upwey,22620,Upwey,override,100.0
+Yarra Ranges,Tecoma,22476,Tecoma,override,100.0
+Yarra Ranges,Monbulk,21727,Monbulk,override,100.0
+Yarra Ranges,Mount Evelyn,21795,Mount Evelyn,override,100.0
+Yarra Ranges,Healesville,21158,Healesville,override,100.0
+Yarra Ranges,Yarra Glen,22910,Yarra Glen,override,100.0
+Yarra Ranges,Coldstream (Vic.),20613,Coldstream (Vic.),override,100.0
+Yarra Ranges,Seville,22263,Seville,override,100.0
+Yarra Ranges,Wandin North,22673,Wandin North,override,100.0
+Yarra Ranges,Woori Yallock,22857,Woori Yallock,override,100.0
+Yarra Ranges,Launching Place,21473,Launching Place,override,100.0
+Yarra Ranges,Yarra Junction,22911,Yarra Junction,override,100.0
+Yarra Ranges,Warburton (Vic.),22689,Warburton (Vic.),override,100.0
+Yarraville-Seddon,Yarraville,22917,Yarraville,exact,100.0
+Yarraville-Seddon,Seddon,22256,Seddon (Vic.),exact,100.0

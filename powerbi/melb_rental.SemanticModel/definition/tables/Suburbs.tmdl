@@ -1,0 +1,96 @@
+table Suburbs
+	lineageTag: f8320b88-1926-4324-9733-bbd1c57cfe0f
+
+	column suburb_key
+		dataType: int64
+		lineageTag: 1bca3dac-4126-4ab0-8dd0-46a6dce9b44b
+		summarizeBy: none
+		sourceColumn: suburb_key
+
+	column suburb_group_name
+		dataType: string
+		lineageTag: 0c48161e-0bc3-4d62-bfd0-cbb13efc0ada
+		summarizeBy: none
+		sourceColumn: suburb_group_name
+
+	column region
+		dataType: string
+		lineageTag: 756ed039-1699-46a2-bee5-7419087c0b88
+		summarizeBy: none
+		sourceColumn: region
+
+	column lga_name
+		dataType: string
+		lineageTag: 2244ae2e-e303-4eec-a608-1fae8683d0fa
+		summarizeBy: none
+		sourceColumn: lga_name
+
+	column latitude
+		dataType: double
+		lineageTag: a49e3550-446e-4b4a-a548-fb35a073be4c
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: b2963131-ef08-49ab-a865-2c98a76e52ef
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column nearest_station
+		dataType: string
+		lineageTag: 39465ca9-7466-4f1d-9790-f2bdc46523b8
+		summarizeBy: none
+		sourceColumn: nearest_station
+
+	column distance_to_station_km
+		dataType: double
+		formatString: 0.0
+		lineageTag: 0d353129-7518-458f-a694-501f09b1ef50
+		summarizeBy: sum
+		sourceColumn: distance_to_station_km
+
+	column distance_band
+		dataType: string
+		lineageTag: dd75e0c7-468e-4494-9179-4e41e8706515
+		summarizeBy: none
+		sourceColumn: distance_band
+
+	column income_census_2021
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 3fe4cab7-d54e-4c4c-9ab5-a4246433e4b8
+		summarizeBy: sum
+		sourceColumn: income_census_2021
+
+	column income_reference_year
+		dataType: int64
+		lineageTag: ad1ff7fa-1800-4bd7-9235-1630e5d32604
+		summarizeBy: sum
+		sourceColumn: income_reference_year
+
+	column population_2021
+		dataType: int64
+		lineageTag: 0535ede9-81fc-4982-a1ca-f599c6301a57
+		summarizeBy: sum
+		sourceColumn: population_2021
+
+	column sal_count
+		dataType: int64
+		lineageTag: 13d41ed9-0293-4863-b086-b400e3659a7e
+		summarizeBy: sum
+		sourceColumn: sal_count
+
+	partition Suburbs = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_suburbs"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

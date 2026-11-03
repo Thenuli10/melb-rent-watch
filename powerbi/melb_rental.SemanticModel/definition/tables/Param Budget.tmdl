@@ -1,0 +1,25 @@
+table 'Param Budget'
+	lineageTag: 02f701de-082e-4cc4-9943-dbc46f433eff
+
+	measure 'Weekly Budget $' = SELECTEDVALUE ( 'Param Budget'[Budget option], 700 )
+		formatString: \$#,0
+		lineageTag: 875b1469-41c3-4592-b242-28db8e3ebf6c
+
+	column 'Budget option'
+		dataType: double
+		formatString: \$#,0
+		lineageTag: b6d105ac-1e7b-45ed-b103-dc85ed993de4
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Param Budget' = calculated
+		mode: import
+		source = { 400, 500, 600, 700, 850, 1000 }
+
+	annotation PBI_Id = 3747bc8737ce4e2b8f54fdc7a2500797
+

@@ -1,0 +1,81 @@
+table 'Model Metrics'
+	lineageTag: 8306f85a-47fd-4b93-a494-5bc8d7400acd
+
+	measure 'Overall MAPE' = CALCULATE ( AVERAGE ( 'Model Metrics'[mape] ), 'Model Metrics'[segment_type] = "overall" ) / 100
+		formatString: 0.00%
+		lineageTag: 5f8b5821-f396-4b9a-be24-76283cd1304e
+
+	measure 'Overall MAE' = CALCULATE ( AVERAGE ( 'Model Metrics'[mae] ), 'Model Metrics'[segment_type] = "overall" )
+		formatString: \$#,0.00
+		lineageTag: d4fd0d01-ef48-4795-8d11-7fa0d63cc69c
+
+	measure Published =
+			IF ( CALCULATE ( COUNTROWS ( 'Model Metrics' ), 'Model Metrics'[segment_type] = "overall",
+			    'Model Metrics'[is_selected] = TRUE () ) > 0, "Yes" )
+		lineageTag: b8a24798-1f64-4fa0-8614-9ca83f7171c6
+
+	column model_version
+		dataType: string
+		lineageTag: 65326525-6f0a-4870-b6c8-bb31d18f1d59
+		summarizeBy: none
+		sourceColumn: model_version
+
+	column model_name
+		dataType: string
+		lineageTag: eb376e13-c6c3-417d-b82c-c10cedcdd573
+		summarizeBy: none
+		sourceColumn: model_name
+
+	column segment_type
+		dataType: string
+		lineageTag: f34544bd-e701-4397-92ed-a17ad798573a
+		summarizeBy: none
+		sourceColumn: segment_type
+
+	column segment
+		dataType: string
+		lineageTag: 62d3cf12-d9da-4690-a1d7-d65e1de9d021
+		summarizeBy: none
+		sourceColumn: segment
+
+	column mape
+		dataType: double
+		lineageTag: 2b778ac8-8f89-4029-b4a2-3cad7345e0ba
+		summarizeBy: sum
+		sourceColumn: mape
+
+	column mae
+		dataType: double
+		lineageTag: 1f123ba8-8063-4d93-990c-74ceeb990143
+		summarizeBy: sum
+		sourceColumn: mae
+
+	column n_predictions
+		dataType: int64
+		lineageTag: 768c00f3-546b-4897-9eef-53ee5cc99cd6
+		summarizeBy: sum
+		sourceColumn: n_predictions
+
+	column is_selected
+		dataType: boolean
+		lineageTag: 3aab2be9-0848-4edc-95ce-fac2f8319a78
+		summarizeBy: none
+		sourceColumn: is_selected
+
+	column created_at
+		dataType: dateTime
+		lineageTag: c5b2437b-965d-4e88-b59d-e3831c597d41
+		summarizeBy: none
+		sourceColumn: created_at
+
+	partition 'Model Metrics' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_model_metrics"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

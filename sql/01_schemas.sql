@@ -53,6 +53,12 @@ CREATE TABLE IF NOT EXISTS staging.station (
     longitude    NUMERIC(9,6) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS staging.benchmark_income (
+    benchmark               TEXT NOT NULL,
+    median_weekly_hh_income NUMERIC(10,2) NOT NULL,
+    reference_year          SMALLINT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS staging.wage_index (
     quarter_end DATE NOT NULL,
     wpi_index   NUMERIC(8,2) NOT NULL

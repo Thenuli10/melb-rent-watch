@@ -48,6 +48,11 @@ FORMULA_A = ("np.log(rent) ~ np.log(distance_km) + bedrooms + C(dwelling_type) +
              " + C(region)")
 FORMULA_B = ("np.log(rent) ~ C(distance_band, levels=BAND_ORDER) + bedrooms + C(dwelling_type)"
              " + np.log(income_indexed) + C(region)")
+# Model C: one "near" flag. The band model's 95% ranges for <1 km and 1-2 km overlap, so the
+# data supports "within ~2 km costs more" but not a gradient between the inner bands.
+NEAR_KM = 2
+FORMULA_C = ("np.log(rent) ~ near_station + bedrooms + C(dwelling_type) + np.log(income_indexed)"
+             " + C(region)")
 
 
 def load_data() -> pd.DataFrame:
@@ -55,6 +60,7 @@ def load_data() -> pd.DataFrame:
     for c in ("rent", "income_indexed", "distance_to_station_km", "latitude", "longitude"):
         df[c] = df[c].astype(float)
     df["distance_km"] = df["distance_to_station_km"].clip(lower=MIN_DISTANCE_KM)
+    df["near_station"] = (df["distance_to_station_km"] <= NEAR_KM).astype(int)
     return df
 
 
@@ -87,9 +93,10 @@ def morans_i(df: pd.DataFrame, resid: pd.Series, k: int = 6):
 def fit(df: pd.DataFrame) -> dict:
     model_a = smf.ols(FORMULA_A, data=df).fit(cov_type="HC3")
     model_b = smf.ols(FORMULA_B, data=df, eval_env=1).fit(cov_type="HC3")
+    model_c = smf.ols(FORMULA_C, data=df).fit(cov_type="HC3")
     bp_lm, bp_p, _, _ = het_breuschpagan(model_a.resid, model_a.model.exog)
     moran = morans_i(df, model_a.resid)
-    return {"a": model_a, "b": model_b, "vif": vif_table(df), "bp_p": bp_p, "moran": moran}
+    return {"a": model_a, "b": model_b, "c": model_c, "vif": vif_table(df), "bp_p": bp_p, "moran": moran}
 
 
 def coefficient_frame(model, version: str, prefix: str = "") -> pd.DataFrame:
@@ -118,6 +125,14 @@ def band_premiums(model_b) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def near_premium_text(model_c, df: pd.DataFrame) -> str:
+    lo, hi = model_c.conf_int().loc["near_station"]
+    return (f"Premium: {100 * np.expm1(model_c.params['near_station']):+.1f}% "
+            f"(95% range {100 * np.expm1(lo):+.1f}% to {100 * np.expm1(hi):+.1f}%, "
+            f"p = {model_c.pvalues['near_station']:.2g}); "
+            f"{int(df['near_station'].sum())} of {len(df)} suburb x type rows are within {NEAR_KM} km.")
+
+
 def write_report(res: dict, df: pd.DataFrame, version: str) -> str:
     a, moran = res["a"], res["moran"]
     elasticity = a.params["np.log(distance_km)"]
@@ -135,6 +150,10 @@ def write_report(res: dict, df: pd.DataFrame, version: str) -> str:
         "",
         "## Train premium by distance band vs >5 km (model B)",
         band_premiums(res["b"]).round(3).to_string(index=False),
+        "The <1 km and 1-2 km ranges overlap, so the bands do not show a gradient within 2 km.",
+        "",
+        f"## Within {NEAR_KM} km of a station vs further (model C)",
+        near_premium_text(res["c"], df),
         "",
         "## Diagnostics",
         "VIF:",
@@ -156,7 +175,8 @@ def write_report(res: dict, df: pd.DataFrame, version: str) -> str:
 
 
 def save_coefficients(res: dict, version: str) -> None:
-    coefs = pd.concat([coefficient_frame(res["a"], version), coefficient_frame(res["b"], version, "band_model:")])
+    coefs = pd.concat([coefficient_frame(res["a"], version), coefficient_frame(res["b"], version, "band_model:"),
+                       coefficient_frame(res["c"], version, "near_model:")])
     with connect() as conn, conn.cursor() as cur:
         cur.execute("DELETE FROM dw.model_regression_coefficients WHERE model_version = %s", (version,))
         cur.executemany(

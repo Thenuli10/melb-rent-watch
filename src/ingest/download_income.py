@@ -26,13 +26,14 @@ def _fetch_csv(url: str, dest, source: str, quarter: str | None = None) -> Downl
 def download_census(force: bool = False) -> dict[str, DownloadResult]:
     cfg = load_config()["income"]
     out = {}
-    for key, source in (("median_hh_income", "census_income"), ("population", "census_population")):
+    for key, source in (("median_hh_income", "census_income"), ("population", "census_population"),
+                        ("gmel_median_hh_income", "census_gmel_income")):
         existing = manifest.find(source)
         if existing and not force:
             out[key] = manifest.from_entry(existing)
             continue
         url = f"{cfg['api_base']}/{cfg[key]}"
-        out[key] = _fetch_csv(url, RAW_DIR / "census" / f"{source}_sal_vic_2021.csv", source)
+        out[key] = _fetch_csv(url, RAW_DIR / "census" / f"{source}_vic_2021.csv", source)
     return out
 
 

@@ -72,6 +72,13 @@ ON CONFLICT (station_id) DO UPDATE SET
     latitude = EXCLUDED.latitude,
     longitude = EXCLUDED.longitude;
 
+-- Benchmark incomes
+INSERT INTO dw.ref_benchmark_income (benchmark, median_weekly_hh_income, reference_year)
+SELECT benchmark, median_weekly_hh_income, reference_year FROM staging.benchmark_income
+ON CONFLICT (benchmark) DO UPDATE SET
+    median_weekly_hh_income = EXCLUDED.median_weekly_hh_income,
+    reference_year = EXCLUDED.reference_year;
+
 -- Wage index (revisions overwrite)
 INSERT INTO dw.ref_wage_index (quarter_end, wpi_index)
 SELECT quarter_end, wpi_index FROM staging.wage_index

@@ -1,0 +1,25 @@
+table 'Param Weight'
+	lineageTag: 31b4629c-c2e6-4274-b905-7bd4bbfbc426
+
+	measure 'Income Weight' = DIVIDE ( SELECTEDVALUE ( 'Param Weight'[Weight option (%)], 70 ), 100 )
+		formatString: 0.00
+		lineageTag: 0d01a7d5-7daa-4db5-92d4-f45f964ae8c6
+
+	column 'Weight option (%)'
+		dataType: double
+		formatString: 0
+		lineageTag: 18787fa2-d5d4-4209-aac3-1c5b32e680a6
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Param Weight' = calculated
+		mode: import
+		source = { 50, 70, 90 }
+
+	annotation PBI_Id = dfbb6d87e7a94d64b3be1aa4e352917d
+

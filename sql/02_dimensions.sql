@@ -63,6 +63,13 @@ CREATE TABLE IF NOT EXISTS dw.ref_wage_index (
     wpi_index   NUMERIC(8,2) NOT NULL
 );
 
+-- Area-wide incomes used as fixed affordability benchmarks (e.g. Greater Melbourne)
+CREATE TABLE IF NOT EXISTS dw.ref_benchmark_income (
+    benchmark               TEXT PRIMARY KEY,
+    median_weekly_hh_income NUMERIC(10,2) NOT NULL,   -- ABS Census, not indexed
+    reference_year          SMALLINT NOT NULL
+);
+
 CREATE SEQUENCE IF NOT EXISTS dw.etl_batch_seq;
 
 CREATE TABLE IF NOT EXISTS dw.etl_run_log (

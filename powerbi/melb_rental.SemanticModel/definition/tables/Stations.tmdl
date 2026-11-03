@@ -1,0 +1,52 @@
+table Stations
+	lineageTag: 519a7912-ca93-4f1e-8824-4f14df861f73
+
+	column station_id
+		dataType: string
+		lineageTag: 2bbecbaa-16c8-4db9-9121-c481ef246399
+		summarizeBy: none
+		sourceColumn: station_id
+
+	column station_name
+		dataType: string
+		lineageTag: 73e9aa3c-0526-4aef-a2cf-92a272c59a69
+		summarizeBy: none
+		sourceColumn: station_name
+
+	column network
+		dataType: string
+		lineageTag: 9f5203aa-c934-4509-ade0-7e56375d71ff
+		summarizeBy: none
+		sourceColumn: network
+
+	column latitude
+		dataType: double
+		lineageTag: b46e6242-ba0a-4792-a40e-bfab3f91396b
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: 6cccf1df-88f1-4a86-8096-b83fec49e9c9
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column in_rental_area
+		dataType: boolean
+		lineageTag: 45f39b49-6d0b-4633-a954-3b5834031b79
+		summarizeBy: none
+		sourceColumn: in_rental_area
+
+	partition Stations = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_stations"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

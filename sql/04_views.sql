@@ -7,6 +7,7 @@ DROP VIEW IF EXISTS analytics.v_rent_forecast CASCADE;
 DROP VIEW IF EXISTS analytics.v_suburbs CASCADE;
 DROP VIEW IF EXISTS analytics.v_suburb_sal CASCADE;
 DROP VIEW IF EXISTS analytics.v_stations CASCADE;
+DROP VIEW IF EXISTS analytics.v_benchmark_income CASCADE;
 DROP VIEW IF EXISTS analytics.v_model_metrics CASCADE;
 DROP VIEW IF EXISTS analytics.v_regression_coefficients CASCADE;
 DROP VIEW IF EXISTS analytics.v_refresh_info CASCADE;
@@ -137,8 +138,24 @@ FROM dw.bridge_suburb_sal b
 JOIN dw.dim_suburb s USING (suburb_key);
 
 
+-- in_rental_area: metro stations, plus V/Line stations that are the nearest station to a
+-- suburb group (e.g. Melton). Drops outlying V/Line stops beyond the rent data's coverage.
 CREATE VIEW analytics.v_stations AS
-SELECT station_id, station_name, network, latitude, longitude FROM dw.dim_station;
+SELECT station_id, station_name, network, latitude, longitude,
+       (network = 'Metro' OR station_name IN (SELECT nearest_station FROM dw.dim_suburb)) AS in_rental_area
+FROM dw.dim_station;
+
+
+-- Fixed affordability benchmarks, indexed to the latest WPI quarter like suburb incomes
+CREATE VIEW analytics.v_benchmark_income AS
+SELECT b.benchmark,
+       b.median_weekly_hh_income AS income_census,
+       b.reference_year,
+       ROUND(b.median_weekly_hh_income * latest.wpi_index / base.wpi_index, 2) AS income_indexed,
+       latest.quarter_end AS indexed_to_quarter
+FROM dw.ref_benchmark_income b
+CROSS JOIN (SELECT wpi_index FROM dw.ref_wage_index WHERE quarter_end = DATE '2021-09-30') base
+CROSS JOIN (SELECT quarter_end, wpi_index FROM dw.ref_wage_index ORDER BY quarter_end DESC LIMIT 1) latest;
 
 
 CREATE VIEW analytics.v_model_metrics AS

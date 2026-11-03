@@ -1,0 +1,217 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 618.40070107864017,
+            "y": 57.878573231993641
+          },
+          "nodeIndex": "Affordability",
+          "nodeLineageTag": "c8147936-7c12-42b4-8063-f25bdc82c36e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1145.0109219844219,
+            "y": 275.74035759484894
+          },
+          "nodeIndex": "Benchmark",
+          "nodeLineageTag": "afe55602-e3e1-4f08-87a4-9b5e7e714f74",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50.012187268272783,
+            "y": -50
+          },
+          "nodeIndex": "Forecast",
+          "nodeLineageTag": "60d5078d-5840-4ce3-9ed3-f02f71777249",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 626.84054035880445,
+            "y": 408.07826916075663
+          },
+          "nodeIndex": "Latest",
+          "nodeLineageTag": "2426d900-e5cd-46a3-99e6-fd18a3ec1f15",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 425.48071518969783
+          },
+          "nodeIndex": "Map Points",
+          "nodeLineageTag": "dfda2235-8fbd-4626-b8f7-82ee96d8ffcc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1429.0109219844219,
+            "y": 237.74035759484894
+          },
+          "nodeIndex": "Model Metrics",
+          "nodeLineageTag": "8306f85a-47fd-4b93-a494-5bc8d7400acd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1713.0109219844219,
+            "y": 275.74035759484894
+          },
+          "nodeIndex": "Param Budget",
+          "nodeLineageTag": "02f701de-082e-4cc4-9943-dbc46f433eff",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1997.0109219844219,
+            "y": 275.74035759484894
+          },
+          "nodeIndex": "Param Distance",
+          "nodeLineageTag": "ad8d121a-0c6b-4dd8-802b-8ec61bee9ad2",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2281.0109219844217,
+            "y": 275.74035759484894
+          },
+          "nodeIndex": "Param Income",
+          "nodeLineageTag": "f8a5d16d-d9d5-461c-b4db-30f9a79d07ed",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2565.0109219844217,
+            "y": 275.74035759484894
+          },
+          "nodeIndex": "Param Weight",
+          "nodeLineageTag": "31b4629c-c2e6-4274-b905-7bd4bbfbc426",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.19150706242715,
+            "y": 262.74599564747371
+          },
+          "nodeIndex": "Property Type",
+          "nodeLineageTag": "d0d3fe24-1862-4fe4-85c3-603ca870b06c",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2849.0109219844217,
+            "y": 311.74035759484894
+          },
+          "nodeIndex": "Refresh Info",
+          "nodeLineageTag": "a9d21e49-c5e4-4c99-8fb2-28994a307a6d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3133.0109219844217,
+            "y": 237.74035759484894
+          },
+          "nodeIndex": "Regression",
+          "nodeLineageTag": "20168173-a48e-4e01-ade3-49c2589c29be",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3417.0109219844217,
+            "y": 275.74035759484894
+          },
+          "nodeIndex": "Stations",
+          "nodeLineageTag": "519a7912-ca93-4f1e-8824-4f14df861f73",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 911.010921984422,
+            "y": 223.82067519722821
+          },
+          "nodeIndex": "Suburbs",
+          "nodeLineageTag": "f8320b88-1926-4324-9733-bbd1c57cfe0f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,4 +1,4 @@
-# Rent drivers regression (ols_v1_20261102)
+# Rent drivers regression (ols_v1_20261103)
 
 Observations: 640 suburb group x property type rows (latest 4 quarters averaged)
 R-squared: 0.832   adj. R-squared: 0.828
@@ -13,6 +13,10 @@ holding bedrooms, dwelling type, indexed income and region constant.
 2–5 km        0.835      -3.916        5.820    0.736
 1–2 km        6.611       1.436       12.050    0.012
  <1 km        8.476       3.605       13.576    0.001
+The <1 km and 1-2 km ranges overlap, so the bands do not show a gradient within 2 km.
+
+## Within 2 km of a station vs further (model C)
+Premium: +7.2% (95% range +4.1% to +10.3%, p = 3.6e-06); 519 of 640 suburb x type rows are within 2 km.
 
 ## Diagnostics
 VIF:
@@ -22,7 +26,7 @@ log_distance 1.06
     is_house 1.36
   log_income 1.06
 Breusch-Pagan p-value: 0.001634 (heteroskedastic: HC3 robust SEs used)
-Moran's I on suburb residuals: 0.139 (permutation p = 0.005) (residuals cluster spatially; treat SEs as optimistic, region effects already included)
+Moran's I on suburb residuals: 0.139 (permutation p = 0.003) (residuals cluster spatially; treat SEs as optimistic, region effects already included)
 
 ## Model A summary
                             OLS Regression Results                            
@@ -30,8 +34,8 @@ Moran's I on suburb residuals: 0.139 (permutation p = 0.005) (residuals cluster 
 Dep. Variable:           np.log(rent)   R-squared:                       0.832
 Model:                            OLS   Adj. R-squared:                  0.828
 Method:                 Least Squares   F-statistic:                     209.1
-Date:                Mon, 02 Nov 2026   Prob (F-statistic):          5.88e-210
-Time:                        19:05:23   Log-Likelihood:                 394.65
+Date:                Tue, 03 Nov 2026   Prob (F-statistic):          5.88e-210
+Time:                        16:16:01   Log-Likelihood:                 394.65
 No. Observations:                 640   AIC:                            -763.3
 Df Residuals:                     627   BIC:                            -705.3
 Df Model:                          12                                         

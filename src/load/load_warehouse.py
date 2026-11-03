@@ -22,6 +22,7 @@ STAGING_COLUMNS = {
                            "distance_to_station_km"],
     "staging.station": ["station_id", "station_name", "network", "latitude", "longitude"],
     "staging.wage_index": ["quarter_end", "wpi_index"],
+    "staging.benchmark_income": ["benchmark", "median_weekly_hh_income", "reference_year"],
 }
 
 

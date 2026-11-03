@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "melb_rental"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3d6a138e-c1de-4a0c-b7de-add1dc049485"
+  }
+}

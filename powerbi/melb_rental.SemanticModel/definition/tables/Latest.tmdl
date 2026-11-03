@@ -1,0 +1,352 @@
+table Latest
+	lineageTag: 2426d900-e5cd-46a3-99e6-fd18a3ec1f15
+
+	measure 'Avg Rent' = AVERAGE ( Latest[median_weekly_rent] )
+		formatString: \$#,0
+		lineageTag: b4e2f75a-f0d5-46af-b69f-0e329a417c6b
+
+	measure 'Rent to Income %' = DIVIDE ( AVERAGE ( Latest[median_weekly_rent] ), AVERAGE ( Latest[median_weekly_hh_income] ) )
+		formatString: 0.0%
+		lineageTag: e81b6374-f57e-4823-8962-247df234cc66
+
+	measure 'Avg QoQ Growth' = DIVIDE ( AVERAGE ( Latest[qoq_growth_pct] ), 100 )
+		formatString: 0.0%
+		lineageTag: 1beaf910-0d20-40f6-8573-075ac84cc43a
+
+	measure 'Avg YoY Growth' = DIVIDE ( AVERAGE ( Latest[yoy_growth_pct] ), 100 )
+		formatString: +0.0%;-0.0%
+		lineageTag: 37a73d84-ef99-4dc1-bf86-e2809565d162
+
+	measure 'In Range' =
+			VAR d = MAX ( Latest[distance_to_station_km] )
+			VAR r = MAX ( Latest[median_weekly_rent] )
+			RETURN IF ( NOT ISBLANK ( d ) && NOT ISBLANK ( r ) && d <= [Max Distance km] && r <= [Weekly Budget $], 1 )
+		formatString: 0
+		lineageTag: 4c36e6cb-39d1-41c1-bcbb-44c2ea0ca803
+
+	measure 'Value Score' = VAR s = [Value Score Raw] RETURN IF ( NOT ISBLANK ( s ), ROUND ( 100 * s, 0 ) )
+		formatString: 0
+		lineageTag: c13a5f4a-8b47-45e2-9f45-657eea1f8701
+
+	measure 'Shown Rent' = IF ( [In Range] = 1, [Avg Rent] )
+		formatString: \$#,0
+		lineageTag: f57363c8-478a-46e7-aaf6-b52f568358e3
+
+	measure 'Shown Distance km' = IF ( [In Range] = 1, AVERAGE ( Latest[distance_to_station_km] ) )
+		formatString: 0.0
+		lineageTag: 319b251b-c559-4d30-bc4e-f2b6a153b38a
+
+	measure '% Suburbs in Rental Stress' =
+			DIVIDE (
+			    CALCULATE ( COUNTROWS ( Latest ), Latest[affordability_band] = "Rental stress (30%+)" ),
+			    COUNTROWS ( Latest )
+			)
+		formatString: 0%
+		lineageTag: b4d729f9-6381-4c34-b5db-10286986d96d
+
+	measure '% of Suburbs' = DIVIDE ( COUNTROWS ( Latest ), CALCULATE ( COUNTROWS ( Latest ), REMOVEFILTERS ( Latest[affordability_band] ) ) )
+		formatString: 0%
+		lineageTag: b59140ba-639d-4f35-b636-9740439e2fd9
+
+	measure 'Rent / Your Income' = DIVIDE ( [Avg Rent], [Your Income] )
+		formatString: 0%
+		lineageTag: cd6938f4-d87e-4872-a95f-60f9076dc390
+
+	measure 'Value Score Raw' =
+			VAR ri = [Rent / Your Income]
+			VAR dist = AVERAGE ( Latest[distance_to_station_km] )
+			VAR w = [Income Weight]
+			RETURN IF ( [In Range] = 1, ( 1 - ri ) * w + ( 1 - MIN ( dist / 5, 1 ) ) * ( 1 - w ) )
+		formatString: 0.000
+		lineageTag: 4c769530-8878-4b2c-b196-648a54039de0
+
+	measure Rank =
+			IF ( NOT ISBLANK ( [Value Score Raw] ),
+			    RANKX ( FILTER ( ALLSELECTED ( Latest[suburb_group_name] ), NOT ISBLANK ( [Value Score Raw] ) ),
+			        [Value Score Raw], , DESC, Dense ) )
+		formatString: 0
+		lineageTag: 569b676b-912b-4007-b608-18f167ce167e
+
+	measure 'In Top 15' = VAR k = [Rank] RETURN IF ( NOT ISBLANK ( k ) && k <= 15, 1 )
+		formatString: 0
+		lineageTag: cd716dea-5a51-475f-9782-bd04cb015fa0
+
+	measure 'Top Rank' = IF ( [In Top 15] = 1, [Rank] )
+		formatString: 0
+		lineageTag: 9539388a-1b4b-4e5d-b80f-5c26e29f1de7
+
+	measure 'Top Station' = IF ( [In Top 15] = 1, SELECTEDVALUE ( Latest[nearest_station] ) )
+		lineageTag: 1c76fa48-0697-4ac1-a7ac-a3ef1e3fe34d
+
+	measure 'Top Distance Band' = IF ( [In Top 15] = 1, SELECTEDVALUE ( Latest[distance_band] ) )
+		lineageTag: f6e33de0-0149-49b5-9ea8-1d763b78acf0
+
+	measure 'Top Rent' = IF ( [In Top 15] = 1, [Avg Rent] )
+		formatString: \$#,0
+		lineageTag: 7b2755de-ce88-4544-81ff-cd4133fecb8f
+
+	measure 'Top Rent / Your Income' = IF ( [In Top 15] = 1, [Rent / Your Income] )
+		formatString: 0%
+		lineageTag: 762b6a0e-9587-4f67-877f-79d24b309aa3
+
+	measure 'Top YoY Growth' = IF ( [In Top 15] = 1, [Avg YoY Growth] )
+		formatString: +0.0%;-0.0%
+		lineageTag: 7d5cbc83-97b8-4652-9302-8034ecd704b6
+
+	measure 'Top Score' = IF ( [In Top 15] = 1, [Value Score] )
+		formatString: 0
+		lineageTag: 4f27e8f5-3833-4dc7-a506-41e5cedca805
+
+	measure 'Best Value Title' =
+			VAR n = COUNTROWS ( FILTER ( ALLSELECTED ( Latest[suburb_group_name] ), NOT ISBLANK ( [Value Score Raw] ) ) )
+			VAR best = TOPN ( 1, FILTER ( ALLSELECTED ( Latest[suburb_group_name] ), NOT ISBLANK ( [Value Score Raw] ) ),
+			    [Value Score Raw], DESC )
+			RETURN IF ( n = 0, "No suburbs fit these limits: try a higher budget or distance",
+			    CONCATENATEX ( best, Latest[suburb_group_name], ", " ) & " is the best value of " & n
+			    & " suburbs that fit your limits (top 15 shown)" )
+		lineageTag: 411257c5-2819-4346-866a-fa257d149706
+
+	measure 'Shown Rent / Your Income' = IF ( [In Range] = 1, [Rent / Your Income] )
+		formatString: 0%
+		lineageTag: 0a21916e-f992-4d03-a9bb-689b93b5aa4d
+
+	measure 'Stress Rent Limit' = 0.3 * [Your Income]
+		formatString: \$#,0
+		lineageTag: d2b2beeb-2479-498a-9195-7cca8e33014b
+
+	measure 'Dot Colour' = IF ( [In Top 15] = 1, "#1F3A5F", "#C5CEDA" )
+		lineageTag: 8f2e9593-2708-4737-b147-354372fa4894
+
+	measure 'Scatter Note' =
+			VAR best3 = TOPN ( 3, FILTER ( ALLSELECTED ( Latest[suburb_group_name] ), NOT ISBLANK ( [Value Score Raw] ) ),
+			    [Value Score Raw], DESC )
+			RETURN "Best: " & CONCATENATEX ( best3, Latest[suburb_group_name], ", ", [Value Score Raw], DESC )
+			    & "  ·  30% of income = " & FORMAT ( [Stress Rent Limit], "$#,0" ) & "/wk"
+		lineageTag: f68e41fc-3039-4b6a-ac1b-869a264d7360
+
+	measure 'Fastest and Falling YoY' =
+			VAR g = [Avg YoY Growth]
+			VAR hi = RANKX ( FILTER ( ALLSELECTED ( Latest[suburb_group_name] ), NOT ISBLANK ( [Avg YoY Growth] ) ),
+			    [Avg YoY Growth], , DESC )
+			RETURN IF ( NOT ISBLANK ( g ) && ( hi <= 10 || g < 0 ), g )
+		formatString: +0.0%;-0.0%
+		lineageTag: cfc81759-d566-413a-ba58-0f297437603e
+
+	measure 'Suburbs In Limits' =
+			VAR n = COUNTROWS ( FILTER ( VALUES ( Latest[suburb_group_name] ), [In Range] = 1 ) )
+			RETURN IF ( n > 0, n )
+		formatString: 0
+		lineageTag: 8e5fd98e-1691-462d-869b-94cc01435408
+
+	measure 'Best Value Suburb' =
+			VAR best = TOPN ( 1, FILTER ( ALLSELECTED ( Latest[suburb_group_name] ), NOT ISBLANK ( [Value Score Raw] ) ),
+			    [Value Score Raw], DESC )
+			RETURN CONCATENATEX ( best, Latest[suburb_group_name], ", " )
+		lineageTag: 36385117-cb8b-4400-ae1d-9d77133711aa
+
+	measure 'Cheapest Rent In Limits' = MINX ( FILTER ( VALUES ( Latest[suburb_group_name] ), [In Range] = 1 ), [Avg Rent] )
+		formatString: \$#,0
+		lineageTag: 144581cc-ccc9-4cf5-856e-009f58552283
+
+	column suburb_key
+		dataType: int64
+		lineageTag: f3da6740-3eaa-40f5-b595-b1e1c6a766d2
+		summarizeBy: none
+		sourceColumn: suburb_key
+
+	column property_type_key
+		dataType: int64
+		lineageTag: 54709392-d12a-43df-81d3-b0c52c14612f
+		summarizeBy: none
+		sourceColumn: property_type_key
+
+	column date_key
+		dataType: int64
+		lineageTag: 1f5732df-a4da-49b1-bdd1-9ca039b7ee26
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column suburb_group_name
+		dataType: string
+		lineageTag: 8127c338-1eb4-4fec-9ad3-f29469b04790
+		summarizeBy: none
+		sourceColumn: suburb_group_name
+
+	column region
+		dataType: string
+		lineageTag: 5387f29b-8730-4c89-becf-187ce87f3d03
+		summarizeBy: none
+		sourceColumn: region
+
+	column lga_name
+		dataType: string
+		lineageTag: 95bbab57-4e6e-4e19-979f-51ce5af9fe4e
+		summarizeBy: none
+		sourceColumn: lga_name
+
+	column property_type
+		dataType: string
+		lineageTag: 2b3b1d95-f596-4943-93d8-9d5411b4097c
+		summarizeBy: none
+		sourceColumn: property_type
+
+	column dwelling_type
+		dataType: string
+		lineageTag: 480e1eea-6857-4bd8-8d5e-f60009aa492f
+		summarizeBy: none
+		sourceColumn: dwelling_type
+
+	column bedrooms
+		dataType: int64
+		lineageTag: 07d02b77-7cd5-4fe8-9acb-6989df7ee0e2
+		summarizeBy: none
+		sourceColumn: bedrooms
+
+	column quarter_end
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 83bb31ad-78b9-444e-9a2e-a7798e586ff8
+		summarizeBy: none
+		sourceColumn: quarter_end
+
+	column quarter_label
+		dataType: string
+		lineageTag: 968cc180-07f8-4c05-b3f8-91bebfe50803
+		summarizeBy: none
+		sourceColumn: quarter_label
+
+	column financial_year
+		dataType: string
+		lineageTag: 07d2911d-48d0-47da-a87e-ec03e6405311
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	column median_weekly_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 3b60eb90-2d2b-4c78-885a-afd7575f7316
+		summarizeBy: average
+		sourceColumn: median_weekly_rent
+
+	column new_bonds_count
+		dataType: int64
+		lineageTag: 4d2385dc-39fb-4f15-b75b-cae436500b72
+		summarizeBy: sum
+		sourceColumn: new_bonds_count
+
+	column is_reliable
+		dataType: boolean
+		lineageTag: 66b0e772-897a-4eb0-b5a5-4a6cddae9557
+		summarizeBy: none
+		sourceColumn: is_reliable
+
+	column prev_q_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: cfc50191-d87d-4793-9e95-37eafe2a5c33
+		summarizeBy: sum
+		sourceColumn: prev_q_rent
+
+	column qoq_growth_pct
+		dataType: double
+		lineageTag: 6a26f310-dd74-45eb-bda9-a4a67aea7881
+		summarizeBy: sum
+		sourceColumn: qoq_growth_pct
+
+	column yoy_growth_pct
+		dataType: double
+		lineageTag: 7b283151-9f9d-40e9-9f82-eadc23749c63
+		summarizeBy: sum
+		sourceColumn: yoy_growth_pct
+
+	column rolling_4q_avg_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: cbe9837b-bb97-4cdb-89ef-1a0a0ae79c2d
+		summarizeBy: sum
+		sourceColumn: rolling_4q_avg_rent
+
+	column cheapest_rank
+		dataType: int64
+		lineageTag: e3da1085-5754-404b-8e47-298ca082b706
+		summarizeBy: sum
+		sourceColumn: cheapest_rank
+
+	column income_census_2021
+		dataType: double
+		formatString: \$#,0
+		lineageTag: b0b7bfc8-7a36-4e3b-843e-7c3f9627c8c9
+		summarizeBy: sum
+		sourceColumn: income_census_2021
+
+	column median_weekly_hh_income
+		dataType: double
+		formatString: \$#,0
+		lineageTag: a2567c5a-63a4-404b-8992-95ea209161a3
+		summarizeBy: sum
+		sourceColumn: median_weekly_hh_income
+
+	column wpi_index
+		dataType: double
+		lineageTag: 80a56c5a-49b4-4c54-bcd4-470f060ea043
+		summarizeBy: sum
+		sourceColumn: wpi_index
+
+	column nearest_station
+		dataType: string
+		lineageTag: 858a8086-f009-42ac-b9bb-20688780e86f
+		summarizeBy: none
+		sourceColumn: nearest_station
+
+	column distance_to_station_km
+		dataType: double
+		formatString: 0.0
+		lineageTag: 71710371-4df9-416b-a56b-1d72a338ee0e
+		summarizeBy: sum
+		sourceColumn: distance_to_station_km
+
+	column distance_band
+		dataType: string
+		lineageTag: 087bf823-02b9-4b7d-a6ba-129a7eb6e1de
+		summarizeBy: none
+		sourceColumn: distance_band
+
+	column latitude
+		dataType: double
+		lineageTag: 6c741ffb-d5f6-44fd-afa3-b552acf6e393
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: eecf9aa0-d15d-4f0b-b5a0-7ea2293bc169
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column rent_to_income_pct
+		dataType: double
+		lineageTag: ca85fd44-9046-4a9e-a5ff-635151abd1ee
+		summarizeBy: sum
+		sourceColumn: rent_to_income_pct
+
+	column affordability_band
+		dataType: string
+		lineageTag: 4ef89da3-f0fd-4672-ba6e-f86024358a10
+		summarizeBy: none
+		sourceColumn: affordability_band
+
+	partition Latest = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_affordability"]}[Data],
+					LatestQ = List.Max(View[quarter_end]),
+					Filtered = Table.SelectRows(View, each [quarter_end] = LatestQ and [is_reliable] = true and [median_weekly_rent] <> null)
+				in
+					Filtered
+
+	annotation PBI_ResultType = Table
+

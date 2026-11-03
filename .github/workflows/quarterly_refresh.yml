@@ -55,5 +55,6 @@ jobs:
           name: reports
           path: |
             reports/
+            excel/stakeholder_summary.xlsx
             data/reference/unmatched_suburbs.csv
           if-no-files-found: ignore

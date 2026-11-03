@@ -105,6 +105,10 @@ def transform(downloads: dict) -> dict[str, pd.DataFrame]:
     bridge["distance_to_station_km"] = bridge["distance_to_station_km"].round(2)
 
     wpi = suburb_attributes.read_wage_index(downloads["wage_index"].path)
+    gmel = suburb_attributes.read_abs_sdmx_csv(downloads["census"]["gmel_median_hh_income"].path, "income")
+    benchmark = pd.DataFrame({"benchmark": ["Greater Melbourne"],
+                              "median_weekly_hh_income": [float(gmel["income"].iloc[0])],
+                              "reference_year": [cfg["income"]["reference_year"]]})
 
     INTERIM_DIR.mkdir(parents=True, exist_ok=True)
     rental.to_csv(INTERIM_DIR / "rental_long.csv", index=False)
@@ -117,6 +121,7 @@ def transform(downloads: dict) -> dict[str, pd.DataFrame]:
         "staging.suburb_sal": bridge,
         "staging.station": stations,
         "staging.wage_index": wpi,
+        "staging.benchmark_income": benchmark,
     }
 
 
@@ -150,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
 
         income_dl = download_income.run()
         geo_dl = download_stations.run()
-        downloads["census"] = {k: income_dl[k] for k in ("median_hh_income", "population")}
+        downloads["census"] = {k: income_dl[k] for k in ("median_hh_income", "population", "gmel_median_hh_income")}
         downloads["wage_index"] = income_dl["wage_index"]
         downloads["gtfs"] = geo_dl.pop("gtfs")
         downloads["boundaries"] = geo_dl
@@ -202,6 +207,16 @@ def main(argv: list[str] | None = None) -> int:
                     lw.log_event(conn, batch_id, "model", "failed", source=name, detail=repr(e)[:500])
                     log.exception("%s model failed", name)
                     return 1
+
+        # 6. Excel stakeholder summary (reads the analytics views, so it runs last)
+        from src.report import build_excel
+
+        try:
+            lw.log_event(conn, batch_id, "report", "success", source="excel", detail=build_excel.run())
+        except Exception as e:
+            lw.log_event(conn, batch_id, "report", "failed", source="excel", detail=repr(e)[:500])
+            log.exception("Excel summary failed")
+            return 1
     finally:
         conn.close()
 

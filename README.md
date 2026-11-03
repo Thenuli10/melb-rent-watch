@@ -85,6 +85,10 @@ The first run downloads ~450 MB of boundaries and GTFS. Later runs reuse them.
 
 If the DFFH website doesn't respond to scripted requests, download the workbook in a browser and pass it with `--rental-file`.
 
+The DFFH site regularly times out for cloud servers such as GitHub Actions. When that happens, the scheduled run doesn't turn red every week:
+- If the latest loaded quarter is less than 210 days old (`quality.max_data_age_days`), the run passes with a warning.
+- Once the data is older than that, a newer quarter is almost certainly out, so the run fails with instructions. Download the new workbook in a browser and run the pipeline locally with `--rental-file`.
+
 ### GitHub Actions
 
 | Workflow | Schedule | What it does |

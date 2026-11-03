@@ -29,6 +29,16 @@ def test_clean_station_name():
     assert clean_station_name("Melton Railway Station") == "Melton"
 
 
+def test_is_stale():
+    from datetime import date
+
+    from src.pipeline import is_stale
+
+    assert not is_stale(date(2026, 6, 30), date(2026, 11, 3), 210)
+    assert is_stale(date(2026, 6, 30), date(2027, 2, 1), 210)
+    assert is_stale(None, date(2026, 11, 3), 210)
+
+
 def test_quality_check_file_parses_and_formats():
     checks = parse_checks((SQL_DIR / "05_quality_checks.sql").read_text(encoding="utf-8"))
     names = [n for n, _ in checks]

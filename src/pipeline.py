@@ -11,9 +11,11 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
+import requests
 
 from src.common import INTERIM_DIR, connect, load_config, log, setup_logging
 from src.ingest import download_income, download_rental, download_stations
@@ -32,6 +34,44 @@ def already_loaded(conn, quarter: str) -> bool:
                        WHERE step = 'load' AND source = 'rental' AND quarter = %s AND status = 'success'
                        LIMIT 1""", (quarter,))
         return cur.fetchone() is not None
+
+
+def is_stale(latest_quarter: date | None, today: date, max_age_days: int) -> bool:
+    return latest_quarter is None or (today - latest_quarter).days > max_age_days
+
+
+def handle_rental_site_unreachable(error: Exception) -> int:
+    """The DFFH site often times out for cloud servers such as GitHub Actions.
+
+    That alone shouldn't fail every weekly run, so: warn and exit 0 while the
+    loaded data is recent, but fail once it is old enough that a newer quarter
+    has almost certainly been published and needs a manual --rental-file run.
+    """
+    max_age = load_config()["quality"]["max_data_age_days"]
+    conn = connect()
+    try:
+        lw.apply_ddl(conn)
+        with conn.cursor() as cur:
+            cur.execute("""SELECT max(d.quarter_end) FROM dw.fact_rental_bonds f
+                           JOIN dw.dim_date d USING (date_key)""")
+            latest = cur.fetchone()[0]
+        stale = is_stale(latest, date.today(), max_age)
+        detail = f"DFFH site unreachable ({type(error).__name__}); latest loaded quarter {latest}"
+        lw.log_event(conn, lw.new_batch_id(conn), "download", "failed" if stale else "skipped", source="rental",
+                     detail=detail)
+    finally:
+        conn.close()
+
+    if stale:
+        msg = (f"{detail}, which is more than {max_age} days old. A newer quarter is probably out: download it "
+               f"from the DFFH rental report page in a browser and run the pipeline with --rental-file.")
+        log.error(msg)
+        print(f"::error::{msg}")
+        return 1
+    msg = f"{detail}; data is still current, so no action needed."
+    log.warning(msg)
+    print(f"::warning::{msg}")
+    return 0
 
 
 def transform(downloads: dict) -> dict[str, pd.DataFrame]:
@@ -92,7 +132,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.rental_file:
         rental_dl = download_rental.register_local_file(args.rental_file)
     else:
-        rental_dl = download_rental.run()
+        try:
+            rental_dl = download_rental.run()
+        except requests.RequestException as e:
+            return handle_rental_site_unreachable(e)
     downloads = {"rental": rental_dl}
 
     conn = connect()

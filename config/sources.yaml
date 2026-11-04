@@ -1,0 +1,109 @@
+# Source definitions. Publishers rename files and move pages: when a download
+# fails, check the landing page and update the pattern here, not the code.
+
+rental:
+  landing_page: https://www.dffh.vic.gov.au/publications/rental-report
+  # Matched against each link's href (case-insensitive). The link redirects to the .xlsx.
+  link_pattern: moving-annual-median-rent-suburb-and-town
+  # Quarter is parsed from the resolved filename, e.g. "... - June Quarter 2026.xlsx"
+  filename_quarter_pattern: '(?P<month>March|June|September|December) Quarter (?P<year>\d{4})'
+  # Sheets to load: sheet name -> (dwelling_type, bedrooms). "All properties" is skipped
+  # because it mixes dwelling types and would break the fact grain.
+  sheets:
+    1 bedroom flat: [Flat, 1]
+    2 bedroom flat: [Flat, 2]
+    3 bedroom flat: [Flat, 3]
+    2 bedroom house: [House, 2]
+    3 bedroom house: [House, 3]
+    4 bedroom house: [House, 4]
+  expected_metrics: [Count, Median]
+  # DFFH regions that make up Greater Melbourne. Geelong, Ballarat, Bendigo and
+  # "Other Regional Centres" are dropped.
+  metro_regions:
+    - Inner Melbourne
+    - Inner Eastern Melbourne
+    - Southern Melbourne
+    - Outer Western Melbourne
+    - North Western Melbourne
+    - North Eastern Melbourne
+    - Outer Eastern Melbourne
+    - South Eastern Melbourne
+    - Mornington Peninsula
+  # Row labels in column B that are subtotals, not suburb groups
+  skip_rows: [Group Total]
+  null_tokens: ['-', 'n.a.', 'na', 'NA', '']
+
+income:
+  # ABS Census 2021 via the ABS Data API (SDMX). The DataPack zip on abs.gov.au sits
+  # behind bot protection, which breaks unattended downloads; the API serves the same tables.
+  api_base: https://data.api.abs.gov.au/rest/data
+  # G02 measure 4 = Median total household income ($/weekly)
+  median_hh_income: ABS,C21_G02_SAL,1.0.0/4..SAL.2
+  # G01 persons (3), total persons (P_1): used as weights when combining suburbs
+  population: ABS,C21_G01_SAL,1.0.0/3.P_1..SAL.2
+  # Greater Melbourne median household income: a fixed benchmark for "is this suburb
+  # affordable for a typical Melbourne household?", as opposed to local income
+  gmel_median_hh_income: ABS,C21_G02_SA2,1.0.0/4.2GMEL.GCCSA.2
+  reference_year: 2021
+  # Census night was 10 Aug 2021, so incomes are indexed from the Sep 2021 quarter
+  census_quarter: 2021-Q3
+
+wage_index:
+  # ABS Wage Price Index, total hourly rates excl. bonuses, private and public,
+  # all industries, original series, Victoria, quarterly index
+  api_base: https://data.api.abs.gov.au/rest/data
+  series: ABS,WPI/1.THRPEB.7.TOT.10.2.Q
+  start_period: 2000-Q1
+
+stations:
+  gtfs_url: https://data.ptv.vic.gov.au/downloads/gtfs.zip
+  # Folders inside the PTV GTFS zip: 2 = metropolitan train, 1 = regional train (V/Line).
+  # V/Line stations are kept only if they fall inside Greater Melbourne.
+  feeds:
+    metro_train: '2'
+    vline: '1'
+  include_vline_in_gmel: true
+  # Re-download GTFS only if the cached copy is older than this
+  max_age_days: 90
+
+boundaries:
+  base_url: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files
+  files:
+    sal: SAL_2021_AUST_GDA2020_SHP.zip
+    gccsa: GCCSA_2021_AUST_SHP_GDA2020.zip
+    lga: LGA_2021_AUST_GDA2020_SHP.zip
+  gccsa_code: 2GMEL
+  state_code: '2'
+
+matching:
+  fuzzy_threshold: 90
+  # Suburb groups whose parts are joined with this character
+  group_separator: '-'
+
+distance_bands:
+  # Upper bounds in km, label applies to distance < bound
+  - [1, '<1 km']
+  - [2, '1–2 km']
+  - [5, '2–5 km']
+  - [.inf, '>5 km']
+
+powerbi:
+  # Power BI connects directly to Postgres (db.<project-ref>.supabase.co:5432, user "postgres"),
+  # not through the pooler. A refresh loads every table at once and each table opens several
+  # connections (peak ~18 measured), which exceeds the free plan's 15-client session pooler,
+  # and Power BI's connector hangs on the transaction pooler (6543). The direct connection
+  # allows ~60. On the free plan it is IPv6-only; set this to false to use the pooler instead.
+  direct_connection: true
+
+quality:
+  # The series starts in 2000, when 1-bed flats rented for as little as $80/week
+  rent_min: 50
+  rent_max: 3000
+  # Allowed change in fact row count vs previous quarter (fraction)
+  row_count_tolerance: 0.10
+  # Rows with fewer new bonds than this are flagged unreliable in the views
+  min_bond_count: 10
+  # If the DFFH site can't be reached, the run only fails once the latest loaded
+  # quarter is older than this. DFFH publishes about 3-4 months after quarter end,
+  # so 210 days means the next quarter is overdue.
+  max_data_age_days: 210

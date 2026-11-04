@@ -1,0 +1,102 @@
+table Regression
+	lineageTag: 20168173-a48e-4e01-ade3-49c2589c29be
+
+	measure 'Train Premium' = IF ( NOT ISBLANK ( SELECTEDVALUE ( Regression[Distance Band] ) ), EXP ( SUM ( Regression[coefficient] ) ) - 1 )
+		formatString: +0.0%;-0.0%
+		lineageTag: aca0ba6c-43df-4ac1-8498-6fddef37ffbf
+
+	measure 'Premium Within 2 km' = CALCULATE ( EXP ( SUM ( Regression[coefficient] ) ) - 1, Regression[term] = "near_model:near_station" )
+		formatString: +0.0%;-0.0%
+		lineageTag: fa99368a-16a7-4314-ae1f-8f909fe2c5c9
+
+	measure 'Premium 95% CI' =
+			IF ( NOT ISBLANK ( SELECTEDVALUE ( Regression[Distance Band] ) ),
+			    FORMAT ( EXP ( SUM ( Regression[conf_low] ) ) - 1, "+0.0%;-0.0%" ) & " to " &
+			    FORMAT ( EXP ( SUM ( Regression[conf_high] ) ) - 1, "+0.0%;-0.0%" ) )
+		lineageTag: b31cfd3d-123c-482c-bda4-830b6b1b0447
+
+	measure p-value =
+			VAR p = SUM ( Regression[p_value] )
+			RETURN IF ( NOT ISBLANK ( SELECTEDVALUE ( Regression[Distance Band] ) ), IF ( p < 0.001, "<0.001", FORMAT ( p, "0.000" ) ) )
+		lineageTag: 6e76f936-a80c-4a3b-b9ed-586a3ce7ce64
+
+	column model_version
+		dataType: string
+		lineageTag: 7b39238b-c84c-462a-942a-c371c1527767
+		summarizeBy: none
+		sourceColumn: model_version
+
+	column term
+		dataType: string
+		lineageTag: f0c4963d-a3ae-40ac-97db-6b9bc956f86f
+		summarizeBy: none
+		sourceColumn: term
+
+	column coefficient
+		dataType: double
+		lineageTag: ec642578-a265-4f0c-884e-e5914759df1b
+		summarizeBy: sum
+		sourceColumn: coefficient
+
+	column std_error_hc3
+		dataType: double
+		lineageTag: 2d9ebae8-1b77-4845-afda-f4d506eabf40
+		summarizeBy: sum
+		sourceColumn: std_error_hc3
+
+	column p_value
+		dataType: double
+		lineageTag: d03297eb-9f58-497e-92c9-9d920550202f
+		summarizeBy: sum
+		sourceColumn: p_value
+
+	column conf_low
+		dataType: double
+		lineageTag: c86c19c8-80a8-49df-91f6-d373a2b9b283
+		summarizeBy: sum
+		sourceColumn: conf_low
+
+	column conf_high
+		dataType: double
+		lineageTag: 54ec9820-b828-4a60-86a2-94c6d036f9c0
+		summarizeBy: sum
+		sourceColumn: conf_high
+
+	column created_at
+		dataType: dateTime
+		lineageTag: 35712f44-b529-4c26-8134-016a8b1e1f88
+		summarizeBy: none
+		sourceColumn: created_at
+
+	column 'Distance Band' =
+			VAR t = Regression[term]
+			VAR p = SEARCH ( "[T.", t, 1, 0 )
+			RETURN IF ( LEFT ( t, 11 ) = "band_model:" && CONTAINSSTRING ( t, "C(distance_band" ) && p > 0,
+			    MID ( t, p + 3, LEN ( t ) - p - 3 ) )
+		dataType: string
+		lineageTag: c8af63bc-fdb1-46e1-9bbe-00640393531c
+		summarizeBy: none
+		sortByColumn: 'Band Order'
+
+	column 'Band Order' =
+			VAR t = Regression[term]
+			RETURN SWITCH ( TRUE (),
+			    LEFT ( t, 11 ) <> "band_model:", BLANK (),
+			    CONTAINSSTRING ( t, "[T.<1 km]" ), 1,
+			    CONTAINSSTRING ( t, "[T.1–2 km]" ), 2,
+			    CONTAINSSTRING ( t, "[T.2–5 km]" ), 3 )
+		dataType: int64
+		lineageTag: fcc0ce57-2130-4bc0-b6da-97d8daa7a4ba
+		summarizeBy: none
+
+	partition Regression = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_regression_coefficients"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,121 @@
+table Forecast
+	lineageTag: 60d5078d-5840-4ce3-9ed3-f02f71777249
+
+	measure 'Actual Rent' =
+			VAR q = MAX ( Forecast[quarter_end] )
+			VAR lastQ = CALCULATE ( MAX ( Forecast[quarter_end] ), ALL ( Forecast ) )
+			RETURN IF ( q > EDATE ( lastQ, -36 ), AVERAGE ( Forecast[actual_rent] ) )
+		formatString: \$#,0
+		lineageTag: 1f255106-79ba-4e0a-8bb8-f1d4d15f4ef8
+
+	measure 'Forecast Rent' = IF ( [Is Last Actual], AVERAGE ( Forecast[actual_rent] ), AVERAGE ( Forecast[predicted_rent] ) )
+		formatString: \$#,0
+		lineageTag: fcb733b8-bdf5-4810-bcd3-4db2ecaa84db
+
+	measure 'Forecast Low (80%)' = IF ( [Is Last Actual], AVERAGE ( Forecast[actual_rent] ), AVERAGE ( Forecast[lower_80] ) )
+		formatString: \$#,0
+		lineageTag: cb661b02-f610-4f50-8926-357280aecf1e
+
+	measure 'Forecast High (80%)' = IF ( [Is Last Actual], AVERAGE ( Forecast[actual_rent] ), AVERAGE ( Forecast[upper_80] ) )
+		formatString: \$#,0
+		lineageTag: 906195c1-a3b2-4fef-b7b9-cf89573b2690
+
+	measure 'Is Last Actual' =
+			VAR lastActual = CALCULATE ( MAX ( Forecast[quarter_end] ), ALL ( Forecast ), NOT ISBLANK ( Forecast[actual_rent] ) )
+			RETURN MAX ( Forecast[quarter_end] ) = lastActual
+		lineageTag: 4e936434-a3f5-4ba7-a109-2e943e6360bf
+
+	column suburb_group_name
+		dataType: string
+		lineageTag: 563600a6-83dd-496e-9c63-bf355900253f
+		summarizeBy: none
+		sourceColumn: suburb_group_name
+
+	column region
+		dataType: string
+		lineageTag: 69436086-4a71-45aa-9c0c-7106f97e20ca
+		summarizeBy: none
+		sourceColumn: region
+
+	column property_type
+		dataType: string
+		lineageTag: 702ffc07-4141-4257-8749-93747fb78830
+		summarizeBy: none
+		sourceColumn: property_type
+
+	column dwelling_type
+		dataType: string
+		lineageTag: 025f7a78-8377-4177-93c5-d42c18051074
+		summarizeBy: none
+		sourceColumn: dwelling_type
+
+	column bedrooms
+		dataType: int64
+		lineageTag: 07ed8a92-5ed4-4f7f-9e52-8424fc4d4b76
+		summarizeBy: none
+		sourceColumn: bedrooms
+
+	column quarter_end
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 0e46d957-ac6c-4dc9-b803-1b4864d0a078
+		summarizeBy: none
+		sourceColumn: quarter_end
+
+	column quarter_label
+		dataType: string
+		lineageTag: 687f7796-b696-4b30-8bb3-e2d65ffbf87c
+		summarizeBy: none
+		sourceColumn: quarter_label
+
+	column actual_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 35fb60fc-1b89-49c4-8674-4688ccd4fa58
+		summarizeBy: sum
+		sourceColumn: actual_rent
+
+	column predicted_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 013b15ea-7b59-4ccf-ba77-0da17abfc0d7
+		summarizeBy: sum
+		sourceColumn: predicted_rent
+
+	column lower_80
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 0b69dc47-2be0-40dd-8fab-b9ccc1401fd2
+		summarizeBy: sum
+		sourceColumn: lower_80
+
+	column upper_80
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 3d2a59ba-330a-4f36-88da-f9787f3a7b94
+		summarizeBy: sum
+		sourceColumn: upper_80
+
+	column model_version
+		dataType: string
+		lineageTag: 26597111-d777-422a-87df-e486813d8d33
+		summarizeBy: none
+		sourceColumn: model_version
+
+	column is_forecast
+		dataType: boolean
+		lineageTag: b531d9dd-cad5-41f2-b2d9-3e30be214d90
+		summarizeBy: none
+		sourceColumn: is_forecast
+
+	partition Forecast = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_rent_forecast"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

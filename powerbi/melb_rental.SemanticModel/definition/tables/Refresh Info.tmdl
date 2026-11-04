@@ -1,0 +1,32 @@
+table 'Refresh Info'
+	lineageTag: a9d21e49-c5e4-4c99-8fb2-28994a307a6d
+
+	column latest_quarter
+		dataType: dateTime
+		lineageTag: 182bb0b3-07c0-4189-9f2b-c52050b6c5ee
+		summarizeBy: none
+		sourceColumn: latest_quarter
+
+	column last_successful_load
+		dataType: dateTime
+		lineageTag: 926cf17e-41a2-4d75-906b-2e616ce5dffe
+		summarizeBy: none
+		sourceColumn: last_successful_load
+
+	column latest_wpi_quarter
+		dataType: dateTime
+		lineageTag: b32ddbf9-e449-4f68-8d66-52a2d806dbdb
+		summarizeBy: none
+		sourceColumn: latest_wpi_quarter
+
+	partition 'Refresh Info' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_refresh_info"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

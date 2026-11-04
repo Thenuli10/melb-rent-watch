@@ -1,0 +1,50 @@
+table Benchmark
+	lineageTag: afe55602-e3e1-4f08-87a4-9b5e7e714f74
+
+	measure 'Benchmark Income' = MAX ( Benchmark[income_indexed] )
+		formatString: \$#,0
+		lineageTag: ca3889c4-7579-4803-a6cd-c2609a43ced5
+
+	column benchmark
+		dataType: string
+		lineageTag: 91537f4e-8191-443b-8ccf-ef1dbdfc32c0
+		summarizeBy: none
+		sourceColumn: benchmark
+
+	column income_census
+		dataType: double
+		formatString: \$#,0
+		lineageTag: ba5c280e-df58-46d6-9c48-bc1dd8c7f3ac
+		summarizeBy: sum
+		sourceColumn: income_census
+
+	column reference_year
+		dataType: int64
+		lineageTag: 18412f1f-6136-46c8-a354-e42b5207b542
+		summarizeBy: sum
+		sourceColumn: reference_year
+
+	column income_indexed
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 43e9aeda-b6d5-4387-af28-bf41b6d598e7
+		summarizeBy: sum
+		sourceColumn: income_indexed
+
+	column indexed_to_quarter
+		dataType: dateTime
+		lineageTag: f53de6b4-2377-4b31-9d66-1b726863ebac
+		summarizeBy: none
+		sourceColumn: indexed_to_quarter
+
+	partition Benchmark = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_benchmark_income"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

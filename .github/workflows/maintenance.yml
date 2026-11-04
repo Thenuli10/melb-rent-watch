@@ -1,0 +1,45 @@
+name: Database maintenance
+
+on:
+  schedule:
+    - cron: "0 3 */3 * *"   # every 3 days: keep the Supabase free project from pausing
+    - cron: "0 4 * * 0"     # Sundays: backup
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    if: github.event.schedule != '0 4 * * 0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lightweight query
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: psql "$DATABASE_URL" -tAc "SELECT latest_quarter FROM analytics.v_refresh_info"
+
+  backup:
+    if: github.event.schedule == '0 4 * * 0' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      # pg_dump must be at least the server's major version (Supabase runs Postgres 15 or 17)
+      - name: Install PostgreSQL 17 client
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update -q && sudo apt-get install -y -q postgresql-client-17
+
+      - name: Dump warehouse schemas
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          /usr/lib/postgresql/17/bin/pg_dump "$DATABASE_URL" \
+            --schema=dw --schema=analytics --no-owner --no-privileges -Fc \
+            -f "melb_rent_$(date +%Y%m%d).dump"
+
+      # Artifacts are visible to anyone who can read the repo. The data is public
+      # (DFFH, ABS, PTV), but keep the repo private if you add anything sensitive.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: db-backup
+          path: "*.dump"
+          retention-days: 30

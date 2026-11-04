@@ -1,0 +1,10 @@
+expression Server = "db.teowcjrmzavmdoeuumew.supabase.co:5432" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 8ab0159f-2ce1-4fa6-b5c5-c3910a34c1b2
+
+	annotation PBI_ResultType = Text
+
+expression Database = "postgres" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 88ae68e1-ee59-4633-af7c-d4ede6fb9c94
+
+	annotation PBI_ResultType = Text
+

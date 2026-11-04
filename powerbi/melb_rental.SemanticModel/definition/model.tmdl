@@ -1,0 +1,30 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-AU
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Server", "Database", "Affordability", "Latest", "Suburbs", "Stations", "Forecast", "Model Metrics", "Regression", "Refresh Info", "Benchmark", "Property Type", "Map Points"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Affordability
+ref table Latest
+ref table Suburbs
+ref table Stations
+ref table Forecast
+ref table 'Model Metrics'
+ref table Regression
+ref table 'Refresh Info'
+ref table 'Param Distance'
+ref table 'Param Budget'
+ref table 'Param Weight'
+ref table Benchmark
+ref table 'Property Type'
+ref table 'Map Points'
+ref table 'Param Income'
+
+ref cultureInfo en-US
+

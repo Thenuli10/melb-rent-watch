@@ -1,0 +1,1091 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "latest.affordability_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "affordability_band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Band": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.of_suburbs": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "% of Suburbs"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% of suburbs": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.avg_rent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Avg Rent"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Typical weekly rent": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Typical rent": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.avg_yoy_growth": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Avg YoY Growth"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rent growth, past year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.rent_to_income_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Rent to Income %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rent / local income": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.suburbs_in_rental_stress": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "% Suburbs in Rental Stress"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Suburbs in rental stress": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.distance_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "distance_band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Distance to station": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.suburbs_in_limits": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Suburbs In Limits"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Suburbs": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Suburbs in your limits": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.best_value_suburb": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Best Value Suburb"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Best value": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.cheapest_rent_in_limits": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Cheapest Rent In Limits"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cheapest rent": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.stress_rent_limit": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Stress Rent Limit"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "30% of your income": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.suburb_group_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "suburb_group_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Suburb group": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.shown_distance_km": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Shown Distance km"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Distance to station (km)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.shown_rent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Shown Rent"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Weekly rent ($)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.shown_rent___your_income": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Shown Rent / Your Income"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Share of your income": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.top_rank": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Top Rank"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rank": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "#": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.top_station": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Top Station"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nearest station": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.top_distance_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Top Distance Band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Distance": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.top_rent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Top Rent"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rent $/wk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.top_rent___your_income": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Top Rent / Your Income"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Of income": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.top_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Top Score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Score": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "latest.fastest_and_falling_yoy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Latest",
+			          "ConceptualProperty": "Fastest and Falling YoY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "YoY growth": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "regression.premium_within_2_km": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Regression",
+			          "ConceptualProperty": "Premium Within 2 km"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rent premium within 2 km of a station": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "regression.distance_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Regression",
+			          "ConceptualProperty": "Distance Band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Distance to station": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "regression.train_premium": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Regression",
+			          "ConceptualProperty": "Train Premium"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Premium vs >5 km": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "regression.premium_95_ci": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Regression",
+			          "ConceptualProperty": "Premium 95% CI"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "95% range": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "suburbs.region": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Suburbs",
+			          "ConceptualProperty": "region"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Region": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "affordability.quarter_end": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Affordability",
+			          "ConceptualProperty": "quarter_end"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quarter": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "affordability.avg_rent_all_quarters": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Affordability",
+			          "ConceptualProperty": "Avg Rent (all quarters)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Typical rent": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "affordability.suburb_group_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Affordability",
+			          "ConceptualProperty": "suburb_group_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Suburb group": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "affordability.quarter_label": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Affordability",
+			          "ConceptualProperty": "quarter_label"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quarter": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "affordability.yoy_growth_last_2_years": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Affordability",
+			          "ConceptualProperty": "YoY Growth (last 2 years)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "YoY growth": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "property_type.property_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Property Type",
+			          "ConceptualProperty": "property_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Property type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "param_budget.budget_option": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Param Budget",
+			          "ConceptualProperty": "Budget option"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Max rent $/wk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "param_distance.distance_option": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Param Distance",
+			          "ConceptualProperty": "Distance option"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Max km": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "param_income.income_option": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Param Income",
+			          "ConceptualProperty": "Income option"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Your income $/wk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "map_points.latitude": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Map Points",
+			          "ConceptualProperty": "latitude"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Latitude": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "map_points.longitude": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Map Points",
+			          "ConceptualProperty": "longitude"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Longitude": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "map_points.point_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Map Points",
+			          "ConceptualProperty": "point_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Place": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "map_points.places": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Map Points",
+			          "ConceptualProperty": "Places"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Places": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "param_weight.weight_option_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Param Weight",
+			          "ConceptualProperty": "Weight option (%)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Weight on cost %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast.quarter_label": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Forecast",
+			          "ConceptualProperty": "quarter_label"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quarter": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast.actual_rent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Forecast",
+			          "ConceptualProperty": "Actual Rent"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Actual": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast.forecast_rent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Forecast",
+			          "ConceptualProperty": "Forecast Rent"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Forecast": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast.forecast_low_80": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Forecast",
+			          "ConceptualProperty": "Forecast Low (80%)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Low (80%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast.forecast_high_80": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Forecast",
+			          "ConceptualProperty": "Forecast High (80%)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "High (80%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast.suburb_group_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Forecast",
+			          "ConceptualProperty": "suburb_group_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Forecast suburb": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "model_metrics.model_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Model Metrics",
+			          "ConceptualProperty": "model_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Model": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "model_metrics.overall_mape": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Model Metrics",
+			          "ConceptualProperty": "Overall MAPE"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Average error": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "model_metrics.overall_mae": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Model Metrics",
+			          "ConceptualProperty": "Overall MAE"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Average error $/wk": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

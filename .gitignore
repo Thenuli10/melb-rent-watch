@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# Secrets
+.env
+
+# Data: raw and interim files are re-downloadable; reference files are versioned
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Power BI / Excel lock files
+~$*
+*.pbix.bak
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,106 @@
+table 'Map Points'
+	lineageTag: dfda2235-8fbd-4626-b8f7-82ee96d8ffcc
+
+	measure Places = IF ( [Map Show] = 1, COUNTROWS ( 'Map Points' ) )
+		formatString: 0
+		lineageTag: 620b8d26-4465-476e-ac31-3707c83d0ef4
+
+	measure 'Map Show' =
+			VAR lay = SELECTEDVALUE ( 'Map Points'[layer] )
+			VAR nm = SELECTEDVALUE ( 'Map Points'[point_name] )
+			RETURN IF ( lay = "Train station", 1,
+			    CALCULATE ( [In Range], TREATAS ( { nm }, Latest[suburb_group_name] ) ) )
+		formatString: 0
+		lineageTag: e575e1e2-96c9-494b-8258-77e1055a96fd
+
+	measure 'Map Colour' =
+			VAR lay = SELECTEDVALUE ( 'Map Points'[layer] )
+			VAR nm = SELECTEDVALUE ( 'Map Points'[point_name] )
+			RETURN IF ( lay = "Train station", "#B8C4D2",
+			    IF ( CALCULATE ( [In Top 15], TREATAS ( { nm }, Latest[suburb_group_name] ) ) = 1,
+			        "#1F3A5F", "#5B9BD5" ) )
+		lineageTag: ff74d70b-0f52-4a9b-9425-e7275cb46fb7
+
+	column point_name
+		dataType: string
+		lineageTag: 7d0d3e5b-e7ea-4e26-8fa9-f213a31d2ac7
+		summarizeBy: none
+		sourceColumn: point_name
+
+	column property_type
+		dataType: string
+		lineageTag: a6ebc12a-15a1-45ab-9413-b393532ac90d
+		summarizeBy: none
+		sourceColumn: property_type
+
+	column layer
+		dataType: string
+		lineageTag: 3fa6eb05-e57d-4296-abc4-f4768c852760
+		summarizeBy: none
+		sourceColumn: layer
+		sortByColumn: layer_order
+
+	column latitude
+		dataType: double
+		lineageTag: 04627ce3-05bc-44db-bdc2-cbdd59afad5c
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: a757083d-6b51-4db2-a369-d37a4775a3ec
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column median_weekly_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 86aab9f1-355c-4b6f-944e-2786f2c9fb01
+		summarizeBy: average
+		sourceColumn: median_weekly_rent
+
+	column rent_to_income_pct
+		dataType: double
+		lineageTag: 57ca4154-1d4e-487b-bc29-125cc9b743e5
+		summarizeBy: sum
+		sourceColumn: rent_to_income_pct
+
+	column nearest_station
+		dataType: string
+		lineageTag: 2fd768bc-0648-4068-9a5f-5dcbd22285ff
+		summarizeBy: none
+		sourceColumn: nearest_station
+
+	column layer_order
+		dataType: int64
+		lineageTag: de45d7c9-f905-4888-9bdd-2ad2ab9de6b6
+		summarizeBy: sum
+		sourceColumn: layer_order
+
+	partition 'Map Points' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					Aff = Source{[Schema="analytics",Item="v_affordability"]}[Data],
+					LatestQ = List.Max(Aff[quarter_end]),
+					Sub = Table.SelectRows(Aff, each [quarter_end] = LatestQ and [is_reliable] = true and [median_weekly_rent] <> null),
+					SubPts = Table.SelectColumns(Sub, {"suburb_group_name", "property_type", "latitude", "longitude", "affordability_band", "median_weekly_rent", "rent_to_income_pct", "nearest_station"}),
+					SubRen = Table.RenameColumns(SubPts, {{"suburb_group_name", "point_name"}, {"affordability_band", "layer"}}),
+					Types = List.Distinct(Sub[property_type]),
+					St = Table.SelectRows(Source{[Schema="analytics",Item="v_stations"]}[Data], each [in_rental_area] = true),
+					StCols = Table.SelectColumns(St, {"station_name", "latitude", "longitude"}),
+					StNamed = Table.TransformColumns(StCols, {{"station_name", each _ & " station", type text}}),
+					StTyped = Table.AddColumn(StNamed, "property_type", each Types),
+					StRows = Table.ExpandListColumn(StTyped, "property_type"),
+					StLayer = Table.AddColumn(Table.RenameColumns(StRows, {{"station_name", "point_name"}}), "layer", each "Train station"),
+					Combined = Table.Combine({SubRen, StLayer}),
+					Ordered = Table.AddColumn(Combined, "layer_order", each if [layer] = "Train station" then 0 else if [layer] = "Affordable" then 1 else if [layer] = "Moderate" then 2 else 3, Int64.Type),
+					Typed = Table.TransformColumnTypes(Ordered, {{"point_name", type text}, {"property_type", type text}, {"layer", type text}, {"latitude", type number}, {"longitude", type number}, {"median_weekly_rent", type number}, {"rent_to_income_pct", type number}, {"nearest_station", type text}})
+				in
+					Typed
+
+	annotation PBI_ResultType = Table
+

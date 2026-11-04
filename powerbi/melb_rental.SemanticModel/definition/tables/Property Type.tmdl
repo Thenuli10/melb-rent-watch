@@ -1,0 +1,41 @@
+table 'Property Type'
+	lineageTag: d0d3fe24-1862-4fe4-85c3-603ca870b06c
+
+	column property_type
+		dataType: string
+		lineageTag: 76924209-5d0a-4095-a8d6-d16c9fc27030
+		summarizeBy: none
+		sourceColumn: property_type
+		sortByColumn: sort_order
+
+	column dwelling_type
+		dataType: string
+		lineageTag: e05cbde4-2c3f-4e49-b547-e422a730dd2c
+		summarizeBy: none
+		sourceColumn: dwelling_type
+
+	column bedrooms
+		dataType: int64
+		lineageTag: a44f0e1a-9984-42b3-a61e-7f15ba00cb7f
+		summarizeBy: none
+		sourceColumn: bedrooms
+
+	column sort_order
+		dataType: int64
+		lineageTag: 32575c20-6727-4223-9139-96731e08ea2b
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	partition 'Property Type' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_affordability"]}[Data],
+					Types = Table.Distinct(Table.SelectColumns(View, {"property_type", "dwelling_type", "bedrooms"})),
+					Sorted = Table.AddColumn(Types, "sort_order", each (if [dwelling_type] = "Flat" then 0 else 10) + [bedrooms], Int64.Type)
+				in
+					Sorted
+
+	annotation PBI_ResultType = Table
+

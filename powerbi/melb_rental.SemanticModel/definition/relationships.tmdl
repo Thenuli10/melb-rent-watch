@@ -1,0 +1,24 @@
+relationship 7cfd8548-68c6-4c4d-bd6c-cdbf4aac69b0
+	fromColumn: Affordability.suburb_key
+	toColumn: Suburbs.suburb_key
+
+relationship 8ee8d125-47ae-4832-9538-7807325af2e2
+	fromColumn: Latest.suburb_key
+	toColumn: Suburbs.suburb_key
+
+relationship f116bcbd-fb23-4e78-a339-f460c45eee3d
+	fromColumn: Affordability.property_type
+	toColumn: 'Property Type'.property_type
+
+relationship ce1ad888-d377-4f93-b5b7-b1fa13e74965
+	fromColumn: Latest.property_type
+	toColumn: 'Property Type'.property_type
+
+relationship 6ca65c8e-287f-4979-bb13-0afd0d172d87
+	fromColumn: Forecast.property_type
+	toColumn: 'Property Type'.property_type
+
+relationship d9e6d7e3-5497-4ca7-bd80-124f645b5380
+	fromColumn: 'Map Points'.property_type
+	toColumn: 'Property Type'.property_type
+

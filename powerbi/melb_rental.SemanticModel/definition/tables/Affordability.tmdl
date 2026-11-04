@@ -1,0 +1,232 @@
+table Affordability
+	lineageTag: c8147936-7c12-42b4-8063-f25bdc82c36e
+
+	measure 'Avg Rent (all quarters)' = AVERAGE ( Affordability[median_weekly_rent] )
+		formatString: \$#,0
+		lineageTag: 7be3d4ac-2ee9-4a9c-a6e8-754f1f180df1
+
+	measure 'YoY Growth (last 2 years)' =
+			VAR q = MAX ( Affordability[quarter_end] )
+			VAR lastQ = CALCULATE ( MAX ( Affordability[quarter_end] ), ALL ( Affordability ) )
+			RETURN IF ( q > EDATE ( lastQ, -24 ), DIVIDE ( AVERAGE ( Affordability[yoy_growth_pct] ), 100 ) )
+		formatString: +0.0%;-0.0%
+		lineageTag: f0495b14-04cf-4590-a3e0-716f8ef176d8
+
+	measure 'Trend Title' =
+			VAR lastQ = CALCULATE ( MAX ( Affordability[quarter_end] ), ALL ( Affordability ) )
+			VAR nowR = CALCULATE ( [Avg Rent (all quarters)], Affordability[quarter_end] = lastQ )
+			VAR thenR = CALCULATE ( [Avg Rent (all quarters)], Affordability[quarter_end] = EOMONTH ( lastQ, -60 ) )
+			RETURN "Typical " & SELECTEDVALUE ( 'Property Type'[property_type], "" ) & " rent rose "
+			    & FORMAT ( DIVIDE ( nowR, thenR ) - 1, "0%" ) & " in 5 years, from " & FORMAT ( thenR, "$#,0" )
+			    & " to " & FORMAT ( nowR, "$#,0" ) & " a week"
+		lineageTag: ef35d118-cfe1-4173-95e4-ee2e8a756563
+
+	measure 'Growth Title' =
+			VAR lastQ = CALCULATE ( MAX ( Affordability[quarter_end] ), ALL ( Affordability ) )
+			VAR nowG = CALCULATE ( AVERAGE ( Affordability[yoy_growth_pct] ), Affordability[quarter_end] = lastQ )
+			VAR thenG = CALCULATE ( AVERAGE ( Affordability[yoy_growth_pct] ), Affordability[quarter_end] = EOMONTH ( lastQ, -21 ) )
+			RETURN "Rent growth has " & IF ( nowG < thenG, "cooled", "picked up" ) & " from "
+			    & FORMAT ( thenG / 100, "0%" ) & " to " & FORMAT ( nowG / 100, "0%" )
+			    & " a year over the last two years (darker = faster growth)"
+		lineageTag: 546c4975-8e08-455b-8789-bbce50023e5f
+
+	column suburb_key
+		dataType: int64
+		lineageTag: 2175787e-e314-4c95-8649-a70ce1b62d30
+		summarizeBy: none
+		sourceColumn: suburb_key
+
+	column property_type_key
+		dataType: int64
+		lineageTag: bb575d6d-376d-4fa6-b305-78a49969e898
+		summarizeBy: none
+		sourceColumn: property_type_key
+
+	column date_key
+		dataType: int64
+		lineageTag: a7dc7a4d-7640-4f32-8466-9c84aa3b7ebc
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column suburb_group_name
+		dataType: string
+		lineageTag: 636b38cd-bbe3-4827-8ba0-2680cf571a8f
+		summarizeBy: none
+		sourceColumn: suburb_group_name
+
+	column region
+		dataType: string
+		lineageTag: 0f9b0a18-ab41-47fd-81b3-39c704a05f86
+		summarizeBy: none
+		sourceColumn: region
+
+	column lga_name
+		dataType: string
+		lineageTag: 6d57ad90-8f8b-473a-aa4d-9157cf4ea4f6
+		summarizeBy: none
+		sourceColumn: lga_name
+
+	column property_type
+		dataType: string
+		lineageTag: 1c0cd581-f8a6-4cd7-8c1a-3e54612834b2
+		summarizeBy: none
+		sourceColumn: property_type
+
+	column dwelling_type
+		dataType: string
+		lineageTag: d631d732-23af-4e5b-b9c2-9aeab35dc8ed
+		summarizeBy: none
+		sourceColumn: dwelling_type
+
+	column bedrooms
+		dataType: int64
+		lineageTag: f10d994a-d3a8-41a5-bd72-a03872cb4510
+		summarizeBy: none
+		sourceColumn: bedrooms
+
+	column quarter_end
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: f341a5fc-6a81-480f-976a-64a19a39477d
+		summarizeBy: none
+		sourceColumn: quarter_end
+
+	column quarter_label
+		dataType: string
+		lineageTag: 704e8ec5-44dc-4c00-8ebe-bbbd80c587a2
+		summarizeBy: none
+		sourceColumn: quarter_label
+
+	column financial_year
+		dataType: string
+		lineageTag: c74877ba-ab0e-48dc-bc26-d3f2e59cb7d6
+		summarizeBy: none
+		sourceColumn: financial_year
+
+	column median_weekly_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 4ad93c29-0eab-4a82-8418-e46d49fed0f4
+		summarizeBy: average
+		sourceColumn: median_weekly_rent
+
+	column new_bonds_count
+		dataType: int64
+		lineageTag: 6963c2e8-ee89-476d-97f8-b4a54b9a2917
+		summarizeBy: sum
+		sourceColumn: new_bonds_count
+
+	column is_reliable
+		dataType: boolean
+		lineageTag: 9ce02d8e-96d2-44c7-a273-2669720cdac7
+		summarizeBy: none
+		sourceColumn: is_reliable
+
+	column prev_q_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 55368172-3954-4fcc-80f9-c6e479979bc7
+		summarizeBy: sum
+		sourceColumn: prev_q_rent
+
+	column qoq_growth_pct
+		dataType: double
+		lineageTag: 4c18ccbd-dc21-40c8-afa7-e335cb73a272
+		summarizeBy: sum
+		sourceColumn: qoq_growth_pct
+
+	column yoy_growth_pct
+		dataType: double
+		lineageTag: 548f584e-6b83-42d2-88aa-5389aa1ed5eb
+		summarizeBy: sum
+		sourceColumn: yoy_growth_pct
+
+	column rolling_4q_avg_rent
+		dataType: double
+		formatString: \$#,0
+		lineageTag: d57bf2ec-9ab4-4721-9144-dc750fda859e
+		summarizeBy: sum
+		sourceColumn: rolling_4q_avg_rent
+
+	column cheapest_rank
+		dataType: int64
+		lineageTag: 250c769e-119b-46f2-9107-2e93d9fac3c0
+		summarizeBy: sum
+		sourceColumn: cheapest_rank
+
+	column income_census_2021
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 6bd3f1e8-d75d-40c5-aba0-02e7f510abcb
+		summarizeBy: sum
+		sourceColumn: income_census_2021
+
+	column median_weekly_hh_income
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 4fcd446b-0c80-4f21-bcf2-0e44531ba137
+		summarizeBy: sum
+		sourceColumn: median_weekly_hh_income
+
+	column wpi_index
+		dataType: double
+		lineageTag: 723a1d6f-bf11-4e5d-bb18-6dddc2a21e87
+		summarizeBy: sum
+		sourceColumn: wpi_index
+
+	column nearest_station
+		dataType: string
+		lineageTag: f7b3d00b-afc8-41e7-8873-be3c107a41db
+		summarizeBy: none
+		sourceColumn: nearest_station
+
+	column distance_to_station_km
+		dataType: double
+		formatString: 0.0
+		lineageTag: 54218699-fe27-4736-9707-03d4f6e5eb9a
+		summarizeBy: sum
+		sourceColumn: distance_to_station_km
+
+	column distance_band
+		dataType: string
+		lineageTag: 6db1d8bc-c396-46e0-8647-829463f70cb3
+		summarizeBy: none
+		sourceColumn: distance_band
+
+	column latitude
+		dataType: double
+		lineageTag: a3d2cb57-0e31-4d7f-927e-d896d0ca1b2a
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+	column longitude
+		dataType: double
+		lineageTag: 2166ae2c-2ffe-4652-a89b-dda25dab5cb6
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+	column rent_to_income_pct
+		dataType: double
+		lineageTag: a9b2cbaf-7dfc-4b12-9e6e-ed3e91b519aa
+		summarizeBy: sum
+		sourceColumn: rent_to_income_pct
+
+	column affordability_band
+		dataType: string
+		lineageTag: 97e247b6-0b36-4f52-92f5-1e6dd3a7183c
+		summarizeBy: none
+		sourceColumn: affordability_band
+
+	partition Affordability = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database(Server, Database),
+					View = Source{[Schema="analytics",Item="v_affordability"]}[Data]
+				in
+					View
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,25 @@
+table 'Param Income'
+	lineageTag: f8a5d16d-d9d5-461c-b4db-30f9a79d07ed
+
+	measure 'Your Income' = SELECTEDVALUE ( 'Param Income'[Income option], 2200 )
+		formatString: \$#,0
+		lineageTag: e987b687-783e-4c59-8f74-61de8671725a
+
+	column 'Income option'
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 75ee6e3f-0087-4e39-9cb0-45e2215fff4f
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Param Income' = calculated
+		mode: import
+		source = { 1500, 2000, 2200, 2500, 3000, 4000 }
+
+	annotation PBI_Id = f4f7f55f4619403ebe9bf634edeaa619
+

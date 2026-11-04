@@ -1,0 +1,25 @@
+table 'Param Distance'
+	lineageTag: ad8d121a-0c6b-4dd8-802b-8ec61bee9ad2
+
+	measure 'Max Distance km' = SELECTEDVALUE ( 'Param Distance'[Distance option], 1.5 )
+		formatString: 0.0
+		lineageTag: 1d9386e0-2ae1-4c60-9758-655945e3612c
+
+	column 'Distance option'
+		dataType: double
+		formatString: 0.0
+		lineageTag: d78c1e98-9d2e-4a42-9ded-5e13cd94002f
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Param Distance' = calculated
+		mode: import
+		source = { 0.5, 1, 1.5, 2, 3, 5 }
+
+	annotation PBI_Id = 8163da3b7b104693b9196da606357928
+
